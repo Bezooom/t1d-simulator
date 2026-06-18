@@ -1,0 +1,68 @@
+{
+  "type 1 diabetes AND stem cell therapy AND encapsulation": [
+    {
+      "title": "Stem cell-based therapies for type 1 diabetes: Progress in differentiation, clinical translation, and immune protection.",
+      "abstract": "Transplantation of insulin-producing cells derived from pluripotent stem cells represents a highly promising approach for the radical treatment of type 1 diabetes (T1D). Informed by a comprehensive understanding of fetal pancreatic development, directed differentiation protocol for generating pancreatic \u03b2 cells from pluripotent stem cells has been established and has achieved considerable advances, enabling the production of mature, fully functional \u03b2 cells that closely recapitulate the characte..."
+    },
+    {
+      "title": "Emerging therapies for type 1 diabetes: Immunotherapy and gene editing advances.",
+      "abstract": "Type 1 diabetes is a chronic autoimmune disease involving the specific destruction of pancreatic \u03b2-cells and consequent absolute insulin deficiency. Although exogenous insulin replacement aids in hyperglycemic management, it does not cure the disease and increases the risks of hypoglycemia. Recent breakthroughs in disease-modifying therapies aim to delay, halt, or reverse disease progression via immune modulation or cell replacement. This narrative review systematically summarizes key therapeuti..."
+    },
+    {
+      "title": "Overview of the major clinical trials investigating stem cells-based therapies for diabetes.",
+      "abstract": "Stem cell-based therapies are a leading frontier in diabetes treatment, aiming to restore insulin-producing \u03b2-cell function beyond symptomatic management. Clinical progress has evolved from donor islet transplantation, such as the Edmonton Protocol, to pluripotent stem cell-derived \u03b2-cell replacement. Embryonic stem cells (ESCs) and induced pluripotent stem cells (iPSCs) can differentiate into insulin-producing cells, while mesenchymal stem cells (MSCs) provide immunomodulatory and metabolic sup..."
+    },
+    {
+      "title": "A UK key opinion leader perspective: Navigating the immunological and logistical transformation brought by stem cell-derived islets for the treatment of type 1 diabetes.",
+      "abstract": "To explore UK key-opinion leader perspectives on the future role of stem cell-derived islets (sc-islets) in islet transplantation for people with type 1 diabetes (T1D). Four UK-based key-opinion leaders evaluated current limitations of donor islet transplantation and reviewed emerging evidence, clinical pathways and logistical considerations for sc-islet transplantation, including alternative delivery sites and implications for kidney transplantation strategies. Conventional islet transplantatio..."
+    },
+    {
+      "title": "An Accessible Platform to Quantify Oxygen Diffusion in Cell-Laden Hydrogels and Its Application to Alginate-Immobilized Pancreatic Beta Cells.",
+      "abstract": "Hydrogels are commonly used to immobilize mammalian cells, offering mechanical support in 3D cultures and acting as barriers for immunoprotection in transplantation, such as islet encapsulation for diabetes therapy. Cell immobilization restricts bulk fluid motion, resulting in diffusion-limited molecular transport and nutrient concentration gradients, particularly for oxygen consumed by immobilized cells. Oxygen mass transport models are essential for designing immobilization strategies but ofte..."
+    }
+  ],
+  "type 1 diabetes AND CRISPR AND beta cell": [
+    {
+      "title": "Gene Therapy and Gene Editing in Type 1 Diabetes: CRISPR-Based \u03b2-Cell Replacement and Treg Immune Modulation Approaches.",
+      "abstract": "Type 1 diabetes mellitus (T1DM) is a chronic autoimmune disease marked by the destruction of pancreatic \u03b2-cells, resulting in lifelong dependence on exogenous insulin. Despite advances in insulin delivery and glucose monitoring technologies, patients remain at risk for acute and long-term complications, underscoring the need for curative strategies. Gene therapy and gene-editing technologies are emerging as transformative approaches capable of restoring \u03b2-cell function, modulating immune respons..."
+    },
+    {
+      "title": "Emerging therapies for type 1 diabetes: Immunotherapy and gene editing advances.",
+      "abstract": "Type 1 diabetes is a chronic autoimmune disease involving the specific destruction of pancreatic \u03b2-cells and consequent absolute insulin deficiency. Although exogenous insulin replacement aids in hyperglycemic management, it does not cure the disease and increases the risks of hypoglycemia. Recent breakthroughs in disease-modifying therapies aim to delay, halt, or reverse disease progression via immune modulation or cell replacement. This narrative review systematically summarizes key therapeuti..."
+    },
+    {
+      "title": "PTPN2 deficiency amplifies inflammatory signalling and impairs functional maturation of human stem cell-derived islets.",
+      "abstract": "Protein tyrosine phosphatases (PTPs) play key roles in \u03b2-cell function and diabetes development. PTPN2 is a candidate gene for type 1 diabetes (T1D) that negatively regulates JAK/STAT signalling. However, the impact of PTPN2 deficiency on the differentiation and functionality of human stem cell-derived somatic metabolic cells remains unclear. PTPN2 expression in \u03b2 cells from T1D organ donors and during the differentiation of human stem cell-derived islets (SC-islets) was evaluated using single-c..."
+    },
+    {
+      "title": "Single-gene knockout of RNLS or HIVEP2 are insufficient to protect \u03b2-cell spheroids from allo- and xeno-rejection.",
+      "abstract": "\u03b2-Cell replacement therapy offers a potential cure for type 1 diabetes, but its success is limited by rapid graft rejection. While genome-wide CRISPR screens have recently identified RNLS and HIVEP2 as candidate genes capable of protecting \u03b2-cells from autoimmune destruction, their efficacy against the distinct mechanisms of allogeneic and xenogeneic rejection remains unknown. This study aimed to test the hypothesis that single-gene ablation of RNLS or HIVEP2 protects \u03b2-cell spheroids from allo-..."
+    },
+    {
+      "title": "Stem Cell Therapy as a Regenerative Strategy in Hereditary Pancreatitis Postpancreatectomy.",
+      "abstract": "Complete loss of both endocrine and exocrine functions of the pancreas results in the lifelong necessity for enzyme and insulin therapy, coupled with the possibility of immunosuppressant side effects following transplantation, representing the future for patients with hereditary pancreatitis (HP) after routine surgical intervention. One possible method for regenerating pancreatic cells and restoring their functioning is the application of stem cell therapy. The purpose of this narrative review i..."
+    }
+  ],
+  "type 1 diabetes AND artificial pancreas AND automated insulin delivery": [
+    {
+      "title": "The impact of automated insulin delivery on glucose management in people with diabetes and advanced chronic kidney disease.",
+      "abstract": "Chronic kidney disease (CKD) complicates insulin dosing and increases glycaemic instability in diabetes. We aimed to compare feasibility, safety and efficacy of automated insulin delivery (AID) with usual care in people with diabetes and advanced CKD. We conducted a prospective, open-label, randomised crossover trial at five tertiary hospitals in Australia and one tertiary centre in Denmark. Adults aged \u226518 years with type 1 diabetes or insulin-treated type 2 diabetes and advanced CKD (stage 3b ..."
+    },
+    {
+      "title": "Links between physical activity, time-in-range and glucose predictability in people with type 1 diabetes.",
+      "abstract": "Type 1 diabetes (T1D) management remains particularly challenging in the presence of external disturbances such as stress or physical activity (PA). The glycemic impact of PA is still not fully understood and lacks standardized modeling approaches. This work seeks to describe the relationship between PA, time-in-range and glucose predictability in people with T1D (PwT1D). This study uses data from the Type 1 Diabetes and Exercise Initiative (T1DEXI) clinical trial, the largest trial to date in P..."
+    },
+    {
+      "title": "A Performance-Based Adaptation Index for Automated Insulin Delivery Systems.",
+      "abstract": "Automated insulin delivery (AID) algorithms can benefit from tuning of their aggressiveness to meet individual needs, as insulin requirements vary among and within users. We introduce the Performance-Based Adaptation Index (PAI), a tool designed to enable automatic adjustment of an AID system aggressiveness based on continuous glucose monitoring (CGM) metrics. PAI integrates two CGM-based metrics-one for hypoglycemia and another for hyperglycemia exposure-over a previous time window into a singl..."
+    },
+    {
+      "title": "Efficacy, safety, and legal considerations of do-it-yourself artificial pancreas systems: a position statement from italian diabetes societies.",
+      "abstract": "Do-It-Yourself Artificial Pancreas Systems (DIY-APS)-which combine commercially available devices with open-source software-are increasingly used for the management of type 1 diabetes, despite a lack of formal regulatory approval in many jurisdictions, including in Italy. This position statement, endorsed by Italian diabetes societies (Associazione Medici Diabetologici, Societa Italiana di Diabetologia, and Societ\u00e0 Italiana di Endocrinologia e Diabetologia Pediatrica) and \"Diabete Italia\", the n..."
+    },
+    {
+      "title": "Automated Insulin Delivery for Patients with Type 2 Diabetes: A Narrative Review.",
+      "abstract": "Despite the availability of newer antidiabetic medications, many patients with type 2 diabetes mellitus still do not achieve their glycemic targets and require insulin treatment. Research from a limited number of randomized controlled trials and observational studies suggests that Automated Insulin Delivery (AID) systems are safe and effective for treating individuals with type 2 diabetes. With the implementation of a hybrid insulin pump, an average reduction in HbA1c of 0.6 to 0.9 percentage po..."
+    }
+  ]
+}
