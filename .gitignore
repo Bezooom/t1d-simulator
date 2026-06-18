@@ -40,3 +40,7 @@ Thumbs.db
 *.tmp
 *.bak
 *~
+
+# Standard and Project ignores added by Antigravity
+*venv*/
+.venv*/
