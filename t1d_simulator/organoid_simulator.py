@@ -9,6 +9,7 @@
 30-дневного CGM мониторинга (TIR, TBR, TAR, HbA1c/GMI) и ИИ-стратификатора рисков.
 """
 import numpy as np
+from typing import Optional, Dict, List
 
 try:
     from .ibmir_module import IBMIRKinetics, get_site_params, SITES
@@ -131,8 +132,8 @@ def simulate_ibmir_protection(peg_lmwh_density=1.0, cd142_expression=1.0):
 
 def run_ibmir_simulation(
     site: str = "omental_pouch",
-    params: dict | None = None,
-    time_points: list | None = None,
+    params: Optional[dict] = None,
+    time_points: Optional[list] = None,
     p_boundary: float = 45.0,
     N0: float = 1000.0,
     include_angiogenesis: bool = True,
@@ -215,8 +216,8 @@ def run_ibmir_simulation(
 
 
 def compare_ibmir_sites(
-    params: dict | None = None,
-    time_points: list | None = None,
+    params: Optional[dict] = None,
+    time_points: Optional[list] = None,
     N0: float = 1000.0,
 ) -> dict[str, dict]:
     """
