@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "t1d_simulator"
+version = "1.0.0"
+description = "In silico digital twin for Type 1 Diabetes cell replacement therapy: multiphysics oxygen PDE, PINN surrogate, GNN biocompatibility, hypoimmune organoid dynamics, and interactive UI."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+keywords = ["diabetes", "digital-twin", "organoid", "PDE", "PINN", "GNN", "biocompatibility"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+]
+dependencies = [
+    "streamlit>=1.30.0",
+    "numpy>=1.24.0",
+    "scipy>=1.10.0",
+    "plotly>=5.15.0",
+    "pandas>=2.0.0",
+    "torch>=2.0.0",
+    "scikit-image>=0.20.0",
+    "trimesh>=3.20.0",
+    "rdkit>=2023.3.1",
+    "torch-geometric>=2.3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "ruff>=0.4.0",
+]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+
+[tool.pytest.ini_options]
+testpaths = ["."]
+python_files = ["verify_model.py", "test_*.py"]
+addopts = "-v"

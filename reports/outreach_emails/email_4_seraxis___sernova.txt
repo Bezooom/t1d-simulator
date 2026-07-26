@@ -1,0 +1,22 @@
+Subject: In Silico Failure Screening (`screen_design`) & Collaboration for Seraxis / Sernova
+
+Dear Cell Therapy Team,
+
+I have been following your impressive research on pre-vascularized pouches and micro-organoid constructs.
+
+We have developed an open-source, literature-calibrated digital twin engine (`t1d_simulator`) designed to evaluate multiphysics failure modes in stem cell-derived beta-cell therapies—specifically oxygen diffusion limits (Krogh limit), FBR fibrotic capsule growth, and 0–48h acute IBMIR kinetics.
+
+Using our new automated construct screening tool (`screen_design`), We offer a quantitative comparison of graft oxygenation, VEGF angiogenesis feedback, and steatosis risks across omental vs. subcutaneous sites.
+
+Our preprint manuscript, open-science package, and screening tools are accessible here:
+- Executable Screening Tool: `python3 t1d_simulator/screen_design.py`
+- Manuscript: docs/manuscript_biorxiv_en.md (bioRxiv PDF / Zenodo DOI metadata)
+- Decision Matrix: docs/site_comparison_matrix.md
+
+We would welcome the opportunity to run a zero-cost computational failure screening for your group's custom geometry or discuss model co-development.
+
+Best regards,
+
+Pavel V. Naumov
+Bioengineering Research Group | t1d_simulator
+naumov122@gmail.com

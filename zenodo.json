@@ -1,0 +1,39 @@
+{
+  "title": "t1d_simulator: Multiphysics Digital Twin Engine for Encapsulated Beta-Cell & Hypoimmune Organoid Transplants",
+  "version": "v1.0.0",
+  "description": "An open-source, calibrated multiphysics digital twin simulating oxygen reaction-diffusion, Krogh diffusion limits, biomaterial foreign body response (FBR), Instant Blood-Mediated Inflammatory Reaction (IBMIR 0-48h), Physics-Informed Neural Networks (PINNs), and Graph Neural Network (GNN) surface screening for Type 1 Diabetes cell therapy optimization.",
+  "creators": [
+    {
+      "name": "Naumov, Pavel V.",
+      "affiliation": "Independent Bioengineering Researcher",
+      "orcid": ""
+    }
+  ],
+  "access_right": "open",
+  "license": "MIT",
+  "keywords": [
+    "Type 1 Diabetes",
+    "Cell Therapy",
+    "Macroencapsulation",
+    "Digital Twin",
+    "Multiphysics",
+    "Physics-Informed Neural Networks",
+    "IBMIR",
+    "Hypoimmune Organoids",
+    "Bioengineering",
+    "Oxygen Diffusion"
+  ],
+  "communities": [
+    {
+      "identifier": "bioRxiv"
+    }
+  ],
+  "upload_type": "software",
+  "related_identifiers": [
+    {
+      "identifier": "https://biorxiv.org",
+      "relation": "isPreprintOf",
+      "scheme": "url"
+    }
+  ]
+}

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>bioRxiv Manuscript - T1D Digital Twin</title>
+    <!-- KaTeX CSS & JS for LaTeX Math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" 
+            onload="renderMathInElement(document.body, {delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false}
+            ]});"></script>
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm;
+            @bottom-right {
+                content: "Page " counter(page) " of " counter(pages);
+                font-family: Arial, sans-serif;
+                font-size: 9pt;
+                color: #666;
+            }
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 10.5pt;
+            line-height: 1.5;
+            color: #1a1a1a;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background-color: #ffffff;
+        }
+
+        /* Header / Banner */
+        .biorxiv-header {
+            border-bottom: 3px solid #8b0000;
+            padding-bottom: 6px;
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .biorxiv-logo {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 22pt;
+            font-weight: bold;
+            color: #8b0000;
+            letter-spacing: -0.5px;
+        }
+        .biorxiv-sub {
+            font-family: Arial, sans-serif;
+            font-size: 8.5pt;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: right;
+        }
+
+        /* Title & Authors */
+        h1 {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 17pt;
+            font-weight: 700;
+            line-height: 1.28;
+            color: #111;
+            margin-top: 5px;
+            margin-bottom: 12px;
+        }
+
+        .meta-info {
+            font-family: Arial, sans-serif;
+            font-size: 9pt;
+            color: #333;
+            background: #f8f9fa;
+            border-left: 4px solid #8b0000;
+            padding: 8px 12px;
+            margin-bottom: 18px;
+            border-radius: 3px;
+        }
+
+        /* Abstract Box - Prevent Awkward Page Break */
+        .abstract-box {
+            font-family: Arial, sans-serif;
+            font-size: 9.5pt;
+            line-height: 1.55;
+            background-color: #f0f4f8;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 14px 18px;
+            margin-bottom: 22px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        .abstract-box h2 {
+            font-size: 11pt;
+            text-transform: uppercase;
+            color: #0969da;
+            margin-top: 0;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            border-bottom: None;
+            padding-bottom: 0;
+        }
+
+        /* Headings */
+        h2 {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 12.5pt;
+            font-weight: bold;
+            color: #0969da;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 4px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            page-break-after: avoid;
+        }
+
+        h3 {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 10.5pt;
+            font-weight: bold;
+            color: #24292f;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            page-break-after: avoid;
+        }
+
+        /* Scientific Figures & Captions */
+        .figure-container {
+            margin: 18px auto;
+            text-align: center;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .figure-container img {
+            max-width: 60%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border: 1px solid #d1d5da;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .graphical-abstract-img {
+            max-width: 70% !important;
+        }
+
+        .figure-caption {
+            font-family: Arial, sans-serif;
+            font-size: 8.5pt;
+            color: #444;
+            max-width: 82%;
+            margin: 8px auto 0 auto;
+            line-height: 1.35;
+            text-align: justify;
+        }
+
+        /* Formulas & Code */
+        .katex-display {
+            margin: 10px 0 !important;
+            padding: 6px;
+            background: #fafafa;
+            border-radius: 4px;
+            page-break-inside: avoid;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background: #f6f8fa;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 9pt;
+        }
+
+        /* References */
+        ol {
+            font-size: 9pt;
+            color: #333;
+            padding-left: 18px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="biorxiv-header">
+        <div class="biorxiv-logo">bioRxiv</div>
+        <div class="biorxiv-sub">PREPRINT | SYNTHETIC BIOLOGY & BIOENGINEERING</div>
+    </div>
+    <h1>Мультифизические режимы отказа инкапсулированных $\beta$-клеток: от диффузионного предела Крога до цифровых двойников гипоиммунных органоидов</h1>
+<div class="meta-info"><strong>Автор:</strong> Наумов Павел Владимирович<br />
+<strong>Контакты:</strong> <code>naumov122@gmail.com</code><br />
+<strong>Целевая площадка:</strong> bioRxiv (Synthetic Biology / Bioengineering) — <strong>основная подача: EN v1.1</strong><br />
+<strong>Дата:</strong> июль 2026<br />
+<strong>Статус:</strong> Черновик препринта <strong>v1.1</strong> (синхронизирован с <code>t1d_simulator</code> v1.0.0)<br />
+<strong>ПО:</strong> <code>t1d_simulator</code> v1.0.0 (лицензия MIT)</div>
+<div class="figure-container"><img class="graphical-abstract-img" src="file:///home/bezoom/storage/Projects/Диабет/docs/figures/graphical_abstract.png" alt="Figure"></div>
+
+<hr />
+<div class="abstract-box"><h2>Аннотация</h2><p>Клеточная заместительная терапия на основе $\beta$-клеток, полученных из стволовых клеток, — перспективный путь к радикальному лечению сахарного диабета 1 типа (СД1). Клинический перенос макро- и микроинкапсуляции, однако, систематически упирается в гипоксию ядра, реакцию на инородное тело (FBR) и острое тромбовоспаление при контакте с кровью (IBMIR). Мы представляем открытый, литературно откалиброванный мультифизический цифровой двойник (<code>t1d_simulator</code> v1.0.0) для <em>in silico</em> скрининга режимов отказа: геометрия, плотность загрузки, сайт имплантации и анти-IBMIR стратегии.</p></div>
+<p>Платформа объединяет нелинейные PDE «реакция–диффузия» кислорода (пластина, цилиндр, сфера), PINN-суррогат, разведочный GNN-скрининг антифиброзной химии, компартментальную кинетику IBMIR (0–48 ч) и API <code>screen_design</code> с явными статусами PASS/WARNING/FAIL. Параметры загружаются из YAML (<code>parameters.yaml</code>, <code>data/literature_params.yaml</code>).</p>
+<p>Модель валидирована по опубликованным данным выживаемости островков: <strong>RMSE 10.42%</strong> (Papas et al., сферы) и <strong>11.42%</strong> (Papabathini et al., пластины). Локальный tornado-анализ ($\pm 20\%$) выделяет $D_{\mathrm{eff}}$, $V_{\max}$ и граничный $pO_2$ как главные драйверы выживаемости. Плотные планарные конструкции в подкожной $pO_2$ дают явный <em>negative prediction</em> (аноксия ядра); сферические конструкции в условиях сальника с гепаринизацией сохраняют высокий core $pO_2$ и лучшую 48-часовую ретенцию при IBMIR. Гипоиммунный edit-set, iCasp9, анти-IBMIR и omental pouch рассматриваются как <strong>дизайн-гипотеза</strong>, а не клинический claim.</p>
+<hr />
+<h2>1. Введение</h2>
+<p>СД1 — аутоиммунная деструкция $\beta$-клеток. Инсулинотерапия и CGM снижают риски, но не устраняют гипогликемию и отдалённые осложнения. Трансплантация островков (Эдмонтонский протокол) ограничена донорским ресурсом и иммуносупрессией.</p>
+<p>Инкапсуляция и SC-$\beta$ призваны обойти системную иммуносупрессию, но клиника упирается в: (1) <strong>предел Крога</strong> — диффузионная гипоксия; (2) <strong>FBR</strong> — фиброзная капсула $L_{\mathrm{fib}}$; (3) <strong>IBMIR</strong> — TF → тромбин → сгусток, потеря до десятков процентов массы за 48 ч.</p>
+<p>Цифровой двойник <code>t1d_simulator</code> картирует дизайн-пространство и выдаёт <strong>отрицательные предсказания</strong> до wet-lab. Позиционирование: multiphysics failure analysis + design-space screening; <strong>не</strong> клинический протокол и <strong>не</strong> «готовое излечение».</p>
+<hr />
+<h2>2. Методы</h2>
+<h3>2.1. PDE транспорта кислорода</h3>
+<p>$$
+\frac{\partial C}{\partial t} = D_{\mathrm{eff}} \nabla^2 C - R_{\mathrm{cells}}(C) - R_{\mathrm{macs}}(C) + S_{\mathrm{ogm}}(t),
+$$</p>
+<p>$$
+R_{\mathrm{cells}}(C) = \frac{V_{\max} C}{K_M + C}\,\rho_{\mathrm{cell}}\,f_{\mathrm{viab}}.
+$$</p>
+<p>Калибровка: $V_{\max} \approx 1.5\times 10^{-16}$ моль/(клетку·с) (Buchwald et al., 2011), $K_M = 0.5$ мм рт. ст. (Dionne / Secomb). Реализация: <code>simulator.py</code>; параметры — YAML.</p>
+<h3>2.2. PINN</h3>
+<p>Суррогатный решатель steady-state для быстрых UI-свипов (<code>pinn_solver.py</code>). Количественные claim’ы рукописи опираются на классический BVP, если не указано иное.</p>
+<h3>2.3. IBMIR ODE (0–48 ч)</h3>
+<p>Каскад TF → тромбин → сгусток; гепаринизация повышает ингибирование тромбина и 48-часовую ретенцию. Модель <strong>полумеханистическая</strong> (<code>ibmir_module.py</code>).</p>
+<div class="figure-container"><img class="" src="file:///home/bezoom/storage/Projects/Диабет/docs/figures/fig_ibmir_coagulation.png" alt="Figure"><div class="figure-caption"><strong>Рисунок 1. Схема IBMIR на границе биоматериал–кровь.</strong></div></div>
+
+<h3>2.4. API скрининга конструкций</h3>
+<p><code>screen_design</code>: геометрия × плотность × сайт × heparin → viable fraction, min core $pO_2$, IBMIR retention, badge FAIL/WARNING/PASS и список failure modes. Отчёты MD/CSV; пакетный режим — <code>scripts/run_partner_screening.py</code>.</p>
+<h3>2.5. Tornado-чувствительность</h3>
+<p>OAT $\pm 20\%$ по $V_{\max}$, $K_M$, $D_{\mathrm{eff}}$, граничному $pO_2$, $L_{\mathrm{fib}}$ (<code>uncertainty_analysis.py</code>).</p>
+<h3>2.6. GNN (разведочный)</h3>
+<p>SMILES → антифиброзный скор; $N \approx 46$–52. <strong>Не</strong> сертификация материалов.</p>
+<h3>2.7. Верификация</h3>
+<p>40 интеграционных тестов (<code>verify_model.py</code>); MIT License; метаданные <code>zenodo.json</code>.</p>
+<hr />
+<h2>3. Результаты</h2>
+<h3>3.1. Бенчмарки</h3>
+<table style="width:100%; border-collapse:collapse; font-size:9pt; margin:10px 0;">
+<thead>
+<tr>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Датасет</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Условие</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">RMSE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Papas et al. (2007)</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Сферы $R=400$ мкм</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><strong>10.42%</strong></td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Papabathini et al. (2023)</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Пластина $L=250$ мкм</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><strong>11.42%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Воспроизведение: <code>python reports/benchmarks/reproduce_benchmarks.py</code>.</p>
+<h3>3.2. Геометрия и SQ-гипоксия</h3>
+<p>При $pO_2 = 30$ мм рт. ст. и высокой плотности ранг SA/V: сфера &gt; цилиндр &gt; пластина. Пример screen: планар 250 мкм, SQ, 100 M/мл → <strong>viability ≈ 40%</strong>, core $pO_2 \approx 0$, <strong>FAIL</strong> (аноксия Крога).</p>
+<h3>3.3. Сайт и IBMIR</h3>
+<table style="width:100%; border-collapse:collapse; font-size:9pt; margin:10px 0;">
+<thead>
+<tr>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Конструкция (сфера $R=200$ мкм, 80 M/мл)</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Сайт</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Heparin</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">min $pO_2$</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Ретенция 48 ч</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Badge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">База</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Воротная / венозная (40 мм рт. ст.)</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Нет</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">≈ 9.1</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><strong>81.1%</strong></td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">WARNING</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">+ анти-IBMIR</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">То же</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Да</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">≈ 9.1</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><strong>94.6%</strong></td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">PASS</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Предпочтительный сценарий</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Сальник (55 мм рт. ст.)</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Да</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">≈ 23.7</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><strong>94.6%</strong></td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">PASS</td>
+</tr>
+</tbody>
+</table>
+<div class="figure-container"><img class="" src="file:///home/bezoom/storage/Projects/Диабет/docs/figures/fig_scaffold_vascularization.png" alt="Figure"><div class="figure-caption"><strong>Рисунок 2. Концепт васкуляризации сальникового скаффолда.</strong></div></div>
+
+<h3>3.4. Чувствительность (planar baseline, viability ≈ 76.8%)</h3>
+<table style="width:100%; border-collapse:collapse; font-size:9pt; margin:10px 0;">
+<thead>
+<tr>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Параметр</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">$\Delta$ viability (п.п.)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">$D_{\mathrm{eff}}$</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">≈ 16.5</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">$V_{\max}$</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">≈ 14.1</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Граничный $pO_2$</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">≈ 14.0</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">$L_{\mathrm{fib}}$</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">≈ 1.3</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">$K_M$</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">≈ 0.1</td>
+</tr>
+</tbody>
+</table>
+<p>Режим в основном <strong>лимитирован доставкой и потреблением</strong> O₂, а не тонкой настройкой $K_M$ в полосе $\pm 20\%$.</p>
+<h3>3.5. Гипоиммунный органоидный нарратив</h3>
+<p>Edit-set + iCasp9 + heparin + VEGF + omentum — <em>in silico</em> checklist. Онкориски гипоиммунных состояний, выход мультиплексного CRISPR и природа EPC — residual risks (см. Critical Analysis).</p>
+<hr />
+<h2>4. Ограничения</h2>
+<p>1D-симметрия; полумеханистический IBMIR; упрощённый FBR; GNN с малым $N$; CGM/TIR в UI — сценарные, не клинические endpoints; wet-lab в этой работе отсутствует.</p>
+<hr />
+<h2>5. Заключение</h2>
+<p><code>t1d_simulator</code> v1.0.0 — откалиброванный цифровой двойник для скрининга failure modes инкапсуляции и гипоиммунных органоидов до животных. Следующий шаг — joint <em>in vitro</em> hypoxia с партнёром и публикация DOI/preprint URL.</p>
+<hr />
+<h2>6. Доступность кода и данных</h2>
+<table style="width:100%; border-collapse:collapse; font-size:9pt; margin:10px 0;">
+<thead>
+<tr>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Ресурс</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Статус</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Код</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">MIT, релиз <strong>v1.0.0</strong> (URL — после public push)</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Zenodo DOI</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><em>после minting</em></td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Параметры / бенчмарки</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><code>data/literature_params.yaml</code>, <code>reports/benchmarks/</code></td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">EN-рукопись (primary)</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><code>docs/manuscript_biorxiv_en.md</code> v1.1</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Тесты</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">40/40 (<code>CUDA_VISIBLE_DEVICES=""</code>)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Список литературы</h2>
+<p>См. EN v1.1 §9 и <code>data/literature_params.yaml</code> / <code>reports/benchmarks/</code> — перед подачей на bioRxiv полные DOI сверяются по первоисточникам. Ключевые опоры: Buchwald 2011; Dionne 1993; Secomb 2004; Papas 2007; Papabathini 2023; IBMIR/TF literature; Shapiro 2000; omental pouch reviews; hypoimmune iPSC reports.</p>
+<hr />
+<h2>Changelog рукописи</h2>
+<table style="width:100%; border-collapse:collapse; font-size:9pt; margin:10px 0;">
+<thead>
+<tr>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Версия</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Дата</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Изменения</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">v1.0</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">2026-07</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Первый черновик</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><strong>v1.1</strong></td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">2026-07-26</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Синхронизация с M0–M3 / v1.0.0: RMSE-таблица, screen_design, tornado, YAML, 40 тестов, MIT, честные limitations; EN — primary для bioRxiv</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

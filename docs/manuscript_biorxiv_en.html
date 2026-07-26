@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bioRxiv Manuscript - T1D Digital Twin</title>
+    <!-- KaTeX CSS & JS for LaTeX Math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" 
+            onload="renderMathInElement(document.body, {delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false}
+            ]});"></script>
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm;
+            @bottom-right {
+                content: "Page " counter(page) " of " counter(pages);
+                font-family: Arial, sans-serif;
+                font-size: 9pt;
+                color: #666;
+            }
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-size: 10.5pt;
+            line-height: 1.5;
+            color: #1a1a1a;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background-color: #ffffff;
+        }
+
+        /* Header / Banner */
+        .biorxiv-header {
+            border-bottom: 3px solid #8b0000;
+            padding-bottom: 6px;
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .biorxiv-logo {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 22pt;
+            font-weight: bold;
+            color: #8b0000;
+            letter-spacing: -0.5px;
+        }
+        .biorxiv-sub {
+            font-family: Arial, sans-serif;
+            font-size: 8.5pt;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: right;
+        }
+
+        /* Title & Authors */
+        h1 {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 17pt;
+            font-weight: 700;
+            line-height: 1.28;
+            color: #111;
+            margin-top: 5px;
+            margin-bottom: 12px;
+        }
+
+        .meta-info {
+            font-family: Arial, sans-serif;
+            font-size: 9pt;
+            color: #333;
+            background: #f8f9fa;
+            border-left: 4px solid #8b0000;
+            padding: 8px 12px;
+            margin-bottom: 18px;
+            border-radius: 3px;
+        }
+
+        /* Abstract Box - Prevent Awkward Page Break */
+        .abstract-box {
+            font-family: Arial, sans-serif;
+            font-size: 9.5pt;
+            line-height: 1.55;
+            background-color: #f0f4f8;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 14px 18px;
+            margin-bottom: 22px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        .abstract-box h2 {
+            font-size: 11pt;
+            text-transform: uppercase;
+            color: #0969da;
+            margin-top: 0;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            border-bottom: None;
+            padding-bottom: 0;
+        }
+
+        /* Headings */
+        h2 {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 12.5pt;
+            font-weight: bold;
+            color: #0969da;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 4px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            page-break-after: avoid;
+        }
+
+        h3 {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 10.5pt;
+            font-weight: bold;
+            color: #24292f;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            page-break-after: avoid;
+        }
+
+        /* Scientific Figures & Captions */
+        .figure-container {
+            margin: 18px auto;
+            text-align: center;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .figure-container img {
+            max-width: 60%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border: 1px solid #d1d5da;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .graphical-abstract-img {
+            max-width: 70% !important;
+        }
+
+        .figure-caption {
+            font-family: Arial, sans-serif;
+            font-size: 8.5pt;
+            color: #444;
+            max-width: 82%;
+            margin: 8px auto 0 auto;
+            line-height: 1.35;
+            text-align: justify;
+        }
+
+        /* Formulas & Code */
+        .katex-display {
+            margin: 10px 0 !important;
+            padding: 6px;
+            background: #fafafa;
+            border-radius: 4px;
+            page-break-inside: avoid;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background: #f6f8fa;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 9pt;
+        }
+
+        /* References */
+        ol {
+            font-size: 9pt;
+            color: #333;
+            padding-left: 18px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="biorxiv-header">
+        <div class="biorxiv-logo">bioRxiv</div>
+        <div class="biorxiv-sub">PREPRINT | SYNTHETIC BIOLOGY / BIOENGINEERING | v1.1</div>
+    </div>
+    <h1>Multiphysics Failure Modes of $\beta$-Cell Encapsulation: From the Krogh Diffusion Limit to Hypoimmune Organoid Digital Twins</h1>
+<div class="meta-info"><strong>Author:</strong> Pavel V. Naumov<br />
+<strong>Correspondence:</strong> <code>naumov122@gmail.com</code><br />
+<strong>Target venue:</strong> bioRxiv (Synthetic Biology / Bioengineering)<br />
+<strong>Date:</strong> July 2026<br />
+<strong>Document status:</strong> Preprint manuscript <strong>v1.1</strong> (submit-ready draft; replace repository/DOI placeholders after public release)<br />
+<strong>Software:</strong> <code>t1d_simulator</code> v1.0.0 (MIT License)</div>
+<div class="figure-container"><img class="graphical-abstract-img" src="file:///home/bezoom/storage/Projects/Диабет/docs/figures/graphical_abstract.png" alt="Figure"></div>
+
+<hr />
+<div class="abstract-box"><h2>Abstract</h2><p>Cell replacement therapy using stem cell-derived pancreatic $\beta$-cells offers a potentially curative approach for Type 1 Diabetes (T1D). Clinical translation of macro- and microencapsulated grafts, however, is repeatedly limited by core hypoxia, foreign body reaction (FBR), and acute blood-mediated inflammation. Here we present an open-source, literature-calibrated multiphysics digital twin (<code>t1d_simulator</code> v1.0.0) for <em>in silico</em> failure-mode screening of encapsulation geometries, cell loading, implant sites, and early anti-IBMIR strategies.</p></div>
+<p>The platform couples non-linear oxygen reaction–diffusion PDEs (planar, cylindrical, and spherical domains), a Physics-Informed Neural Network (PINN) surrogate for rapid design sweeps, Graph Neural Network (GNN) scoring of anti-fibrotic surface chemistry (exploratory), compartmental Instant Blood-Mediated Inflammatory Reaction (IBMIR) kinetics (0–48 h), and a design-space API (<code>screen_design</code>) that returns explicit pass/warn/fail badges with failure reasons. Parameters are sourced from curated YAML tables (<code>parameters.yaml</code>, <code>data/literature_params.yaml</code>).</p>
+<p>The oxygen–viability model was validated against published islet viability datasets, achieving root-mean-square errors of <strong>10.42%</strong> (Papas et al., spherical capsules) and <strong>11.42%</strong> (Papabathini et al., planar slabs). Parameter one-at-a-time sensitivity ($\pm 20\%$) identified effective diffusivity, metabolic $V_{\max}$, and boundary $pO_2$ as dominant viability drivers under a representative planar loading. Systematic screens show that unvascularized planar constructs at high density under subcutaneous $pO_2$ ($30\ \mathrm{mmHg}$) develop core anoxia and viability collapse, whereas spherical constructs in an omental-pouch boundary condition with local heparinization retain high core $pO_2$ and improved 48 h IBMIR retention. An integrated computational narrative combining hypoimmune edit sets, iCasp9 suicide control, anti-IBMIR coating, angiogenic feedback, and omental placement is evaluated as a <em>design hypothesis</em>, not a clinical claim.</p>
+<p>This digital twin is intended to de-risk geometry and loading decisions before animal work and to support transparent model co-development with wet-lab partners.</p>
+<hr />
+<h2>1. Introduction</h2>
+<p>Type 1 Diabetes (T1D) is an autoimmune condition characterized by selective destruction of insulin-producing pancreatic $\beta$-cells. Intensive insulin therapy and continuous glucose monitoring have improved outcomes but do not eliminate hypoglycemia risk or long-term vascular complications. Allogeneic islet transplantation can restore insulin independence, yet donor scarcity and lifelong systemic immunosuppression limit scale.</p>
+<p>Stem cell-derived $\beta$-cells and semi-permeable encapsulation (e.g., alginate) aim to enable glucose/insulin exchange while blocking host immune cells. Despite promising small-animal results, clinical encapsulation trials have frequently failed. Three interlocking bottlenecks dominate:</p>
+<ol>
+<li><strong>Krogh-limited hypoxia.</strong> Without internal capillaries, oxygen is delivered by diffusion alone. Beyond a critical length scale, core $pO_2$ collapses, GSIS fails, and necrosis expands.</li>
+<li><strong>Foreign body reaction (FBR).</strong> Macrophage-driven fibrosis increases effective diffusion path length ($L_{\mathrm{fib}}$) and further starves the graft.</li>
+<li><strong>IBMIR.</strong> Portal or other blood-exposed delivery activates tissue factor (TF, CD142), thrombin generation, platelet recruitment, and fibrin clotting, destroying a large fraction of graft mass within 48 h.</li>
+</ol>
+<p>Empirical iteration <em>in vivo</em> is slow and expensive. Computational multiphysics models can map the design space and return <strong>negative predictions</strong>—which loadings, thicknesses, and sites are physically implausible—before wet-lab commitment. We describe <code>t1d_simulator</code>, a calibrated digital twin spanning oxygen transport, FBR-related barriers, IBMIR kinetics, optional PINN/GNN accelerators, and automated construct screening.</p>
+<p><strong>Positioning.</strong> This work is <em>in silico</em> multiphysics failure analysis and design-space screening. It is not a clinical protocol, not a manufactured cell product, and not a claim of cure.</p>
+<hr />
+<h2>2. Methods</h2>
+<h3>2.1. Oxygen transport and consumption (PDE)</h3>
+<p>Oxygen concentration $C(r,t)$ in hydrogel and tissue obeys a non-linear reaction–diffusion equation:</p>
+<p>$$
+\frac{\partial C}{\partial t} = D_{\mathrm{eff}} \nabla^2 C - R_{\mathrm{cells}}(C) - R_{\mathrm{macs}}(C) + S_{\mathrm{ogm}}(t).
+$$</p>
+<p>Cellular consumption follows Michaelis–Menten kinetics:</p>
+<p>$$
+R_{\mathrm{cells}}(C) = \frac{V_{\max} C}{K_M + C}\,\rho_{\mathrm{cell}}\,f_{\mathrm{viab}}.
+$$</p>
+<p>Default human $\beta$-cell $V_{\max} = 1.5\times 10^{-16}\ \mathrm{mol\,cell^{-1}\,s^{-1}}$ (Buchwald et al., 2011) and $K_M = 0.5\ \mathrm{mmHg}$ (Dionne et al., 1993; Secomb et al., 2004) are stored in literature-calibrated tables and loaded at runtime. Domains include planar slabs, cylinders, and spheres with Dirichlet boundary $pO_2$ at the capsule–tissue interface and zero-flux conditions at the symmetry center. Optional modules couple fibrotic shells, macrophage consumption, oxygen-generating materials (OGM), ROS/pH effects, and VEGF-driven neovascularization feedback (implementation: <code>t1d_simulator/simulator.py</code>).</p>
+<h3>2.2. Physics-Informed Neural Network (PINN) surrogate</h3>
+<p>For rapid UI sweeps, a mesh-free PINN approximates steady-state oxygen profiles by minimizing PDE residual and boundary losses with automatic differentiation (<code>pinn_solver.py</code>). The PINN is a computational accelerator, not an independent source of biological parameters; quantitative claims in this manuscript are grounded in the classical BVP solver unless stated otherwise.</p>
+<h3>2.3. IBMIR coagulation ODE cascade (0–48 h)</h3>
+<p>Acute blood contact is modeled as a compartmental ODE cascade:</p>
+<p>$$
+\frac{d[\mathrm{TF}]}{dt} = -k_{\mathrm{deg}}^{\mathrm{TF}}[\mathrm{TF}],
+$$</p>
+<p>$$
+\frac{d[\mathrm{Thrombin}]}{dt} = k_{\mathrm{gen}}[\mathrm{TF}] - k_{\mathrm{inh}}(\mathrm{heparin})[\mathrm{Thrombin}],
+$$</p>
+<p>$$
+\frac{d[\mathrm{Clot}]}{dt} = k_{\mathrm{clot}}[\mathrm{Thrombin}]\left(1 - \frac{[\mathrm{Clot}]}{L_{\mathrm{clot}}^{\max}}\right).
+$$</p>
+<div class="figure-container"><img class="" src="file:///home/bezoom/storage/Projects/Диабет/docs/figures/fig_ibmir_coagulation.png" alt="Figure"><div class="figure-caption"><strong>Figure 1. Schematic of the Instant Blood-Mediated Inflammatory Reaction (IBMIR) cascade at the biomaterial–blood interface, leading to clot formation and restricted oxygen permeability.</strong></div></div>
+
+<p>Clot growth reduces effective boundary oxygen permeability. Local heparinization (Lipid-PEG-LMWH class coatings) increases inhibition of thrombin and improves 48 h retention in simulation (<code>ibmir_module.py</code>, <code>organoid_simulator.py</code>). This is a <strong>semi-mechanistic</strong> model intended for comparative screening, not a full coagulation proteome.</p>
+<h3>2.4. Design-space screening API</h3>
+<p>Constructs are screened with a single entry point (<code>screen_design</code>) that couples site-specific boundary $pO_2$, geometry, density, optional fibrosis thickness, and heparin coating:</p>
+<table style="width:100%; border-collapse:collapse; font-size:9pt; margin:10px 0;">
+<thead>
+<tr>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Output</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Viable fraction</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Spatially integrated cells above critical $pO_2$</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Min core $pO_2$</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Minimum oxygen tension in the domain</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">IBMIR 48 h retention</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Fraction retained after ODE cascade</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Status badge</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">PASS / WARNING / FAIL with explicit failure modes</td>
+</tr>
+</tbody>
+</table>
+<p>Failure rules (default): core anoxia if $\min pO_2 < 0.5\ \mathrm{mmHg}$; severe hypoxia if $< 5\ \mathrm{mmHg}$; IBMIR risk if retention $< 85\%$; viability failure if viable fraction $< 70\%$. Markdown/CSV report export supports partner co-development workflows (<code>screen_design.py</code>, <code>scripts/run_partner_screening.py</code>).</p>
+<h3>2.5. Local sensitivity (tornado) analysis</h3>
+<p>One-at-a-time $\pm 20\%$ perturbations were applied to $V_{\max}$, $K_M$, $D_{\mathrm{eff}}$, boundary $pO_2$, and $L_{\mathrm{fib}}$ for a baseline planar construct ($R = 200\ \mu\mathrm{m}$, $80\times 10^6$ cells/mL, omental boundary $pO_2$) (<code>uncertainty_analysis.py</code>). Sensitivity was ranked by absolute change in viable fraction.</p>
+<h3>2.6. Exploratory GNN surface screening</h3>
+<p>A graph neural network maps polymer SMILES to anti-fibrotic scores / predicted $L_{\mathrm{fib}}$ (<code>gnn_pipeline.py</code>). The training set is small ($N \approx 46$–52 monomer/polymer entries depending on curation snapshot). We treat GNN outputs as <strong>exploratory ranking aids</strong>, not validated material certifications.</p>
+<h3>2.7. Software, parameters, and verification</h3>
+<table style="width:100%; border-collapse:collapse; font-size:9pt; margin:10px 0;">
+<thead>
+<tr>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Component</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Runtime parameters</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><code>t1d_simulator/parameters.yaml</code></td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Literature-calibrated table</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><code>data/literature_params.yaml</code></td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Benchmarks</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><code>reports/benchmarks/</code> + <code>reproduce_benchmarks.py</code></td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Integration tests</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><code>verify_model.py</code> (<strong>40</strong> automated tests)</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">License</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">MIT (<code>LICENSE</code>)</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Citeable metadata</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><code>zenodo.json</code> (v1.0.0)</td>
+</tr>
+</tbody>
+</table>
+<p>Public repository URL and Zenodo DOI are to be inserted at release (placeholders below).</p>
+<hr />
+<h2>3. Results</h2>
+<h3>3.1. Literature benchmark validation</h3>
+<p>Steady-state oxygen–viability predictions were compared to published experimental viability:</p>
+<table style="width:100%; border-collapse:collapse; font-size:9pt; margin:10px 0;">
+<thead>
+<tr>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Dataset</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Geometry / condition</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">RMSE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Papas et al. (2007)</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Spherical alginate capsules, $R = 400\ \mu\mathrm{m}$, density sweep</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><strong>10.42%</strong></td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Papabathini et al. (2023)</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Planar macrodevice, $L = 250\ \mu\mathrm{m}$, density sweep</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><strong>11.42%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Both RMSE values fall below the pre-specified $12\%$ reporting threshold used in project validation reports. Full density-wise tables and figures are reproduced by <code>python reports/benchmarks/reproduce_benchmarks.py</code>.</p>
+<h3>3.2. Geometry-dependent hypoxia under subcutaneous $pO_2$</h3>
+<p>Under subcutaneous boundary $pO_2 = 30\ \mathrm{mmHg}$ and high loading ($\rho \approx 100\times 10^6$ cells/mL), planar, cylindrical, and spherical constructs exhibit the expected surface-to-volume ranking: spheres retain higher viability than cylinders, which outperform planar slabs of comparable characteristic length. Representative automated screen of a planar half-thickness $250\ \mu\mathrm{m}$ construct under SQ conditions returned <strong>viability $\approx 40\%$</strong>, <strong>core $pO_2 \approx 0$</strong>, and FAIL status with Krogh-limit anoxia—illustrating a clear <em>negative prediction</em> for dense planar SQ devices without vascularization or density reduction.</p>
+<h3>3.3. Anatomical site and IBMIR</h3>
+<p>Sites were parameterized by boundary $pO_2$ and blood-contact risk (portal/venous vs omentum vs SQ; see also <code>docs/site_comparison_matrix.md</code>).</p>
+<table style="width:100%; border-collapse:collapse; font-size:9pt; margin:10px 0;">
+<thead>
+<tr>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Construct (sphere $R=200\ \mu\mathrm{m}$, $80$ M/mL)</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Site</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Heparin</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Core min $pO_2$</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">48 h retention</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Badge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Baseline</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Portal / venous ($40\ \mathrm{mmHg}$)</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">No</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">$\approx 9.1\ \mathrm{mmHg}$</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><strong>81.1%</strong></td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">WARNING (IBMIR)</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">+ anti-IBMIR</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Portal / venous</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Yes</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">$\approx 9.1\ \mathrm{mmHg}$</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><strong>94.6%</strong></td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">PASS</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Preferred narrative</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Omental pouch ($55\ \mathrm{mmHg}$)</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Yes</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">$\approx 23.7\ \mathrm{mmHg}$</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><strong>94.6%</strong></td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">PASS</td>
+</tr>
+</tbody>
+</table>
+<p>Omental placement improves core oxygenation relative to SQ and, when combined with local heparinization, improves simulated IBMIR retention relative to uncoated blood-exposed delivery. Angiogenic (VEGF/PDGF) feedback modules further illustrate recovery of boundary oxygen during neovascularization windows (Figure 2).</p>
+<div class="figure-container"><img class="" src="file:///home/bezoom/storage/Projects/Диабет/docs/figures/fig_scaffold_vascularization.png" alt="Figure"><div class="figure-caption"><strong>Figure 2. Biomimetic vascularization within an omental-pouch scaffold concept. Capillary networks around encapsulated islets restore boundary $pO_2$ under angiogenic feedback (schematic / simulation-linked illustration).</strong></div></div>
+
+<h3>3.4. Automated multiphysics screen (design-space product)</h3>
+<p>The <code>screen_design</code> tool compresses geometry × density × site × heparin into a structured report suitable for partner review. Example outcomes from the v1.0.0 engine:</p>
+<ul>
+<li><strong>FAIL:</strong> planar SQ, high density → anoxia + low viability + IBMIR retention risk.  </li>
+<li><strong>WARNING:</strong> oxygen-viable sphere on blood-exposed site without heparin → IBMIR retention $< 85\%$.  </li>
+<li><strong>PASS:</strong> sphere + omentum + heparin → high viability, elevated core $pO_2$, retention $> 90\%$.</li>
+</ul>
+<p>These badges are decision aids for <em>preclinical design</em>, not clinical release criteria.</p>
+<h3>3.5. Parameter sensitivity</h3>
+<p>For the planar baseline (omental $pO_2$, $R=200\ \mu\mathrm{m}$, $80$ M/mL; baseline viability $\approx 76.8\%$), $\pm 20\%$ one-at-a-time perturbations ranked:</p>
+<table style="width:100%; border-collapse:collapse; font-size:9pt; margin:10px 0;">
+<thead>
+<tr>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Parameter</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">$\Delta$ viability (pp, abs.)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">$D_{\mathrm{eff}}$</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">$\approx 16.5$</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">$V_{\max}$</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">$\approx 14.1$</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Boundary $pO_2$</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">$\approx 14.0$</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">$L_{\mathrm{fib}}$</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">$\approx 1.3$</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">$K_M$</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">$\approx 0.1$</td>
+</tr>
+</tbody>
+</table>
+<p>Interpretation: under this operating point, viability is primarily <strong>delivery- and consumption-limited</strong> (diffusivity, $V_{\max}$, boundary oxygen). Fibrotic thickness and $K_M$ are secondary within the tested $\pm 20\%$ band. Full global uncertainty quantification (Sobol, Bayesian calibration) is future work.</p>
+<h3>3.6. Hypoimmune organoid design narrative (computational)</h3>
+<p>We computationally explore—not wet-lab validate—an integrated design hypothesis: multiplex immune-evasion edits ($B2M^{-/-}$, $CIITA^{-/-}$, $CD47^{\mathrm{KI}}$, $PD-L1^{\mathrm{KI}}$), inducible suicide switch (iCasp9), local heparinization, angiogenic scaffolding, and omental placement. Model modules support dose/site checklists and IBMIR/oxygen endpoints; residual risks (oncogenicity of hypoimmune states, multiplex CRISPR yield, identity of co-transplanted endothelium) are catalogued in project critical analyses and must be addressed experimentally.</p>
+<hr />
+<h2>4. Limitations</h2>
+<ol>
+<li><strong>1D symmetry.</strong> Transport solvers use planar/cylindrical/spherical reductions. Discrete islet clusters, irregular TPMS pores, and full 3D microvascular fields are simplified; 3D FEM/Green’s function extensions are planned.</li>
+<li><strong>IBMIR semi-mechanistic.</strong> The ODE cascade captures comparative heparin and site effects, not the full TF pathway proteome or patient coagulation variability.</li>
+<li><strong>FBR abstraction.</strong> Fibrosis enters mainly as $L_{\mathrm{fib}}$ and related barriers; M1/M2 dynamics, adaptive immunity, and chronic rejection are not fully resolved.</li>
+<li><strong>GNN exploratory.</strong> Small $N$; no claim of general hydrogel SAR without new experimental labels.</li>
+<li><strong>Organoid CGM / TIR modules</strong> (if used in the UI) are scenario tools, not clinical trial endpoints.</li>
+<li><strong>No wet-lab data in this paper.</strong> Validation is literature-based; partner <em>in vitro</em> hypoxia assays are the preferred next calibration step.</li>
+</ol>
+<hr />
+<h2>5. Discussion</h2>
+<p>The principal engineering message is conservative: <strong>many encapsulation designs fail for transport reasons that are predictable <em>a priori</em>.</strong> A digital twin that returns explicit FAIL modes (anoxia, IBMIR retention loss, density overshoot) can reduce animal use and focus wet-lab effort on constructs that clear multiphysics bounds. Omental placement plus anti-IBMIR surface treatment emerges as a favorable <em>in silico</em> combination relative to dense SQ planar devices and uncoated portal delivery, consistent with translational interest in retrievable, vascularized sites—while remaining a hypothesis until measured.</p>
+<p>Open parameters, open benchmarks, and a 40-test verification suite are intentional trust mechanisms. Partner workflows (<code>run_partner_screening.py</code>) are designed for free external design reviews on collaborator geometries.</p>
+<hr />
+<h2>6. Conclusion</h2>
+<p>We release <code>t1d_simulator</code> v1.0.0 as a calibrated multiphysics digital twin for $\beta$-cell encapsulation and hypoimmune organoid design screening. Literature viability benchmarks (RMSE $10.42\%$ / $11.42\%$), automated construct screening, and local sensitivity analysis establish a transparent baseline for co-development with experimental groups. Future work prioritizes joint hypoxia assays, expanded IBMIR calibration, and 3D transport on printed TPMS scaffolds.</p>
+<hr />
+<h2>7. Code and data availability</h2>
+<table style="width:100%; border-collapse:collapse; font-size:9pt; margin:10px 0;">
+<thead>
+<tr>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Resource</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Source code (<code>t1d_simulator</code>)</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Open source, <strong>MIT License</strong> — GitHub release <strong>v1.0.0</strong> (URL: <em>to be inserted on public push</em>)</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Citeable archive</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Zenodo via <code>zenodo.json</code> (DOI: <em>to be inserted after minting</em>)</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Parameters</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><code>t1d_simulator/parameters.yaml</code>, <code>data/literature_params.yaml</code></td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Benchmarks</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><code>reports/benchmarks/</code> (Papas, Papabathini, Krogh, VEGF, IBMIR)</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Preprint source</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">This file; Russian parallel draft in <code>manuscript_biorxiv_ru.md</code></td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Verification</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><code>CUDA_VISIBLE_DEVICES="" python3 t1d_simulator/verify_model.py</code> → 40/40</td>
+</tr>
+</tbody>
+</table>
+<p>Interactive UI: <code>streamlit run t1d_simulator/app.py</code>. Design screen: <code>python t1d_simulator/screen_design.py</code> (CLI).</p>
+<hr />
+<h2>8. Author contributions and competing interests</h2>
+<p><strong>P.V.N.</strong>: conceptualization, software, multiphysics modeling, validation reports, manuscript.<br />
+<strong>Competing interests:</strong> The author declares no competing financial interests. The software is released under MIT for academic and commercial reuse with attribution.</p>
+<hr />
+<h2>9. Acknowledgments</h2>
+<p>Independent research project. Collaboration offers: free <em>in silico</em> design-space screens for academic labs and biotechs working on encapsulation, omental devices, or hypoimmune islet products.</p>
+<hr />
+<h2>References</h2>
+<ol>
+<li>Buchwald, P. (2011). A local glucose-and-oxygen concentration-based insulin secretion model for pancreatic islets. <em>Theoretical Biology and Medical Modelling</em>, 8, 20. Related oxygen consumption calibrations for human islets are used as parameter sources in <code>literature_params.yaml</code>.</li>
+<li>Dionne, K. E., Colton, C. K., &amp; Yarmush, M. L. (1993). Effect of hypoxia on insulin secretion by isolated rat and canine islets of Langerhans. <em>Diabetes</em>, 42(1), 12–21.</li>
+<li>Secomb, T. W., et al. (2004). Analysis of oxygen transport to tissue with a fractal model of the microvessel network. <em>Microcirculation</em> / related Krogh-limit analyses used for diffusion length scales.</li>
+<li>Papas, K. K., et al. (2007). Oxygen consumption and diffusion pathways in human and murine islets (and related encapsulation viability studies). <em>Biotechnology and Bioengineering</em> / <em>Biomaterials</em> lineage as used in project benchmarks.</li>
+<li>Papabathini, R., et al. (2023). Experimental and numerical evaluation of oxygen transport in planar macroencapsulated cell therapies. <em>Tissue Engineering</em> lineage as used in project benchmarks.</li>
+<li>Moberg, L., et al. / related IBMIR literature on tissue factor and thrombin in islet transplantation (Hackett and peers). Instant blood-mediated inflammatory reaction kinetics informing the ODE structure.</li>
+<li>Shapiro, A. M. J., et al. (2000). Islet transplantation in seven patients with type 1 diabetes mellitus using a glucocorticoid-free immunosuppressive regimen. <em>New England Journal of Medicine</em>, 343, 230–238.</li>
+<li>King, A., et al. Omental pouch and alternative sites for islet transplantation (review literature).</li>
+<li>Recent hypoimmune iPSC / B2M–CIITA–CD47 engineering literature (Sana, CRISPR Tx and academic reports) motivating the organoid design narrative.</li>
+<li>Project internal critical analyses and parameter tables: <code>Critical_Analysis_*.md</code>, <code>data/literature_params.yaml</code>, <code>reports/benchmarks/</code>.</li>
+</ol>
+<blockquote>
+<p><strong>Note for submission:</strong> Before bioRxiv upload, replace placeholder citations 1–9 with full publisher-verified bibliographic records and DOIs from the curated parameter YAML and benchmark reports; insert live GitHub URL and Zenodo DOI in §7.</p>
+</blockquote>
+<hr />
+<h2>Changelog (manuscript)</h2>
+<table style="width:100%; border-collapse:collapse; font-size:9pt; margin:10px 0;">
+<thead>
+<tr>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Version</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Date</th>
+<th style="border:1px solid #ccc; padding:4px 6px; background:#f6f8fa; text-align:left;">Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">v1.0</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">2026-07</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Initial draft methods/results</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"><strong>v1.1</strong></td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">2026-07-26</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">Aligned with M0–M3 / software v1.0.0: RMSE table, <code>screen_design</code> results, tornado sensitivity, YAML params, 40 tests, MIT/code availability, honest GNN/IBMIR limitations, site×heparin screen table, removed overclaim ambiguity on half-thickness abstract wording</td>
+</tr>
+<tr>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;">)</td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"></td>
+<td style="border:1px solid #ddd; padding:4px 6px; vertical-align:top;"></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

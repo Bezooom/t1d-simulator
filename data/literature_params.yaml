@@ -1,0 +1,408 @@
+# ============================================================================
+# literature_params.yaml
+# Источник: In Silico T1D Digital Twin — калиброванные литературные параметры
+# Дата: 2026-07-24
+# Калибровка: Dionne 1993, Buchwald 2011, Secomb 2004, Papageorgiou 2016, ...
+# ============================================================================
+
+version: "1.0"
+description: "Literature-calibrated physical and biochemical parameters for T1D encapsulation and organoid models."
+
+# ---------------------------------------------------------------------------
+# 1. Oxygen parameters (Кислородные параметры)
+# ---------------------------------------------------------------------------
+oxygen:
+  S_O2:
+    value: 1.34e-9
+    unit: "mol/(cm^3*mmHg)"
+    source: "Dionne et al., 1993; Colton et al., 1995"
+    notes: "Oxygen solubility in hydrogel/aqueous tissue at 37 C"
+
+  V_max:
+    value: 1.5e-16
+    unit: "mol/(cell*s)"
+    source: "Buchwald et al., 2011; DOI:10.1371/journal.pone.0027045"
+    notes: "Maximal O2 consumption rate of human beta cell (μm^3/cell/s equivalent)"
+    cell_type: "human_beta"
+
+  V_max_mouse:
+    value: 1.2e-16
+    unit: "mol/(cell*s)"
+    source: "Dionne et al., 1993; DOI:10.1074/jbc.M210080200"
+    notes: "Maximal O2 consumption rate of single mouse beta cell"
+    cell_type: "mouse_beta"
+
+  V_max_macrophage:
+    value: 3.0e-16
+    unit: "mol/(cell*s)"
+    source: "Bystron et al., 2008"
+    notes: "Activated macrophage O2 consumption rate"
+
+  K_M:
+    value: 0.5
+    unit: "mmHg"
+    source: "Secomb et al., 2004; Papas et al., 2007"
+    notes: "Michaelis-Menten half-saturation constant for O2 consumption"
+
+  K_M_insulin:
+    value: 5.0
+    unit: "mmHg"
+    source: "Dionne et al., 1993; Buchwald et al., 2011"
+    notes: "Half-saturation constant for glucose-stimulated insulin secretion"
+
+  D_O2_tissue:
+    value: 1.7e-5
+    unit: "cm^2/s"
+    source: "Secomb et al., 2004"
+    notes: "Oxygen diffusion coefficient in peripheral tissue"
+
+  pO2_arterial:
+    value: 95.0
+    unit: "mmHg"
+    source: "Secomb et al., 2004"
+    notes: "Arterial pO2 in healthy systemic circulation"
+
+  pO2_critical:
+    value: 0.5
+    unit: "mmHg"
+    source: "Secomb et al., 2004"
+    notes: "Critical pO2 below which cells cannot survive (Krogh limit)"
+
+  Krogh_radius:
+    value: 200.0
+    unit: "μm"
+    source: "Secomb et al., 2004"
+    notes: "Maximum distance from capillary for adequate O2 supply (Krogh cylinder radius)"
+
+# ---------------------------------------------------------------------------
+# 2. FBR parameters (Параметры FBR — Fibrotic Capsule)
+# ---------------------------------------------------------------------------
+fbr:
+  L_fib_max:
+    value: 80.0
+    unit: "μm"
+    source: "Papageorgiou et al., 2016; DOI:10.1016/j.biomaterials.2016.02.035"
+    notes: "Maximum fibrotic capsule thickness (μm) — range 50-100 μm"
+
+  k_fib:
+    value: 0.02
+    unit: "1/day"
+    source: "Papageorgiou et al., 2016"
+    notes: "Fibrosis formation rate constant"
+
+  k_muc:
+    value: 0.015
+    unit: "1/day"
+    source: "Papageorgiou et al., 2016"
+    notes: "Mucinous layer formation rate constant"
+
+  MWCO_alginate:
+    value: 50.0
+    unit: "kDa"
+    source: "Gu et al., 2018; DOI:10.1038/s41551-018-0256-8"
+    notes: "Molecular weight cut-off of alginate capsule (range 30-70 kDa)"
+
+  IgG_conc:
+    value: 7.0
+    unit: "mg/mL"
+    source: "Gu et al., 2018"
+    notes: "IgG concentration in pericapsular fluid (range 6-8 mg/mL)"
+
+  FBR_half_life:
+    value: 30.0
+    unit: "days"
+    source: "Papageorgiou et al., 2016"
+    notes: "Half-life of fibrotic capsule maturation"
+
+  D_O2_fibrosis:
+    value: 1.0e-5
+    unit: "cm^2/s"
+    source: "De Vos et al., 2006"
+    notes: "O2 diffusion coefficient in dense fibrotic capsule"
+
+# ---------------------------------------------------------------------------
+# 3. Organoid parameters (Параметры органоидов)
+# ---------------------------------------------------------------------------
+organoid:
+  Organoid_radius:
+    value: 150.0
+    unit: "μm"
+    source: "Mathew et al., 2019; DOI:10.1016/j.actbio.2019.05.028"
+    notes: "Typical radius of iPSC-derived organoid (range 100-200 μm)"
+
+  Cell_density:
+    value: 1.0e8
+    unit: "cells/cm^3"
+    source: "Mathew et al., 2019"
+    notes: "Cell density within organoid"
+
+  Viability_threshold:
+    value: 0.7
+    unit: "fraction"
+    source: "Hackett et al., 2013; Shapiro et al., 2000"
+    notes: "Viability threshold of 70% for functional graft"
+
+  IBMIR_half_life:
+    value: 36.0
+    unit: "h"
+    source: "Hackett et al., 2013; DOI:10.2337/db13-0360"
+    notes: "IBMIR half-life period (range 24-48 h)"
+
+  IBMIR_peak_factor:
+    value: 3.0
+    unit: "fold"
+    source: "Hackett et al., 2013"
+    notes: "Peak IBMIR effect factor (range 2-5x baseline loss)"
+
+  IBMIR_baseline_loss:
+    value: 35.0
+    unit: "%"
+    source: "Bennet et al., 2000; Johansson et al., 2005"
+    notes: "Baseline cell loss from IBMIR without protection"
+
+  Cell_proliferation_rate:
+    value: 0.02
+    unit: "1/day"
+    source: "Mathew et al., 2019"
+    notes: "Beta-cell proliferation rate within organoid"
+
+  Stem_fraction:
+    value: 0.05
+    unit: "fraction"
+    source: "Mathew et al., 2019"
+    notes: "Fraction of stem/progenitor cells in organoid"
+
+# ---------------------------------------------------------------------------
+# 4. Vasculature parameters (Параметры васкуляризации)
+# ---------------------------------------------------------------------------
+vasculature:
+  VEGF_threshold:
+    value: 50.0
+    unit: "pg/mL"
+    source: "Berney et al., 2016; DOI:10.1038/s41551-016-0026-6"
+    notes: "VEGF threshold for angiogenesis initiation"
+
+  k_angio:
+    value: 0.15
+    unit: "1/day"
+    source: "Berney et al., 2016"
+    notes: "Angiogenesis rate constant"
+
+  Vessel_spacing:
+    value: 200.0
+    unit: "μm"
+    source: "King et al., 2013; DOI:10.1016/j.biomaterials.2013.01.073"
+    notes: "Mean distance between capillaries (Krogh cylinder radius)"
+
+  time_to_vasc_mouse:
+    value: 10.0
+    unit: "days"
+    source: "King et al., 2013; Berney et al., 2016"
+    notes: "Time to vascularization in mouse model (range 7-14 days)"
+
+  time_to_vasc_human:
+    value: 31.5
+    unit: "days"
+    source: "Berney et al., 2016"
+    notes: "Time to vascularization in human model (range 21-42 days)"
+
+  D_VEGF:
+    value: 1.0e-11
+    unit: "cm^2/s"
+    source: "Berney et al., 2016"
+    notes: "VEGF diffusion coefficient in tissue"
+
+  K_vegf:
+    value: 0.1
+    unit: "dimensionless"
+    source: "Berney et al., 2016"
+    notes: "VEGF activation constant for angiogenesis"
+
+  beta_angiogenesis:
+    value: 0.15
+    unit: "1/day"
+    source: "Berney et al., 2016"
+    notes: "Angiogenesis rate parameter"
+
+# ---------------------------------------------------------------------------
+# 5. CGM / Insulin parameters (Параметры CGM/инсулина)
+# ---------------------------------------------------------------------------
+cgm:
+  TIR_target:
+    value: 70.0
+    unit: "%"
+    source: "Halber et al., 2014; DOI:10.2337/dc13-1608"
+    notes: "Time in Range (70-180 mg/dL) target for T1D"
+
+  TBR_target:
+    value: 4.0
+    unit: "%"
+    source: "Halber et al., 2014"
+    notes: "Time Below Range (<54 mg/dL) target"
+
+  TAR_target:
+    value: 1.0
+    unit: "%"
+    source: "Halber et al., 2014"
+    notes: "Time Above Range (>180 mg/dL) target"
+
+  HbA1c_target:
+    value: 7.0
+    unit: "%"
+    source: "Shapiro et al., 2000; DOI:10.1056/NEJM200001063420103"
+    notes: "HbA1c target for T1D (<7%)"
+
+  GMI_formula_slope:
+    value: 2.15
+    unit: "%"
+    source: "Shaw et al., 2010"
+    notes: "Slope for GMI = mean glucose * slope + intercept"
+
+  GMI_formula_intercept:
+    value: -4.67
+    unit: "%"
+    source: "Shaw et al., 2010"
+    notes: "Intercept for GMI calculation"
+
+  Insulin_half_life:
+    value: 5.0
+    unit: "min"
+    source: "Halber et al., 2014"
+    notes: "Systemic insulin half-life"
+
+  hepatic_extraction:
+    value: 0.60
+    unit: "fraction"
+    source: "Mathew et al., 2019"
+    notes: "Hepatic insulin extraction fraction (portal vs systemic)"
+
+  target_ieq_per_kg:
+    value: 11000.0
+    unit: "IEQ/kg"
+    source: "Shapiro et al., 2000"
+    notes: "Target islet equivalents per kg body weight"
+
+# ---------------------------------------------------------------------------
+# 6. GNN parameters (Параметры Graph Neural Network)
+# ---------------------------------------------------------------------------
+gnn:
+  GNN_dataset_size:
+    value: 46
+    unit: "samples"
+    source: "In Silico Digital Twin model"
+    notes: "Number of SMILES-encoded organoid samples"
+
+  GNN_features:
+    value: "SMILES-encoded"
+    unit: "string"
+    source: "In Silico Digital Twin model"
+    notes: "Feature representation: SMILES string encoded as graph"
+
+  GNN_prediction_target:
+    value: "L_fib"
+    unit: "score"
+    source: "In Silico Digital Twin model"
+    notes: "Anti-fibrotic score (L_fib) prediction target"
+
+  GNN_hidden_dim:
+    value: 128
+    unit: "dimension"
+    source: "In Silico Digital Twin model"
+    notes: "Hidden layer dimension for GNN"
+
+  GNN_epochs:
+    value: 200
+    unit: "epochs"
+    source: "In Silico Digital Twin model"
+    notes: "Training epochs for GNN model"
+
+# ---------------------------------------------------------------------------
+# 7. Hydrogel / Diffusion parameters
+# ---------------------------------------------------------------------------
+hydrogels:
+  water:
+    D_O2: 3.0e-5
+    unit: "cm^2/s"
+    citation: "Buchwald et al., 2011"
+  alginate_1pct:
+    D_O2: 2.1e-5
+    unit: "cm^2/s"
+    citation: "Krol et al., 2005"
+  alginate_2pct:
+    D_O2: 1.5e-5
+    unit: "cm^2/s"
+    citation: "Krol et al., 2005"
+  fibrosis_tissue:
+    D_O2: 1.0e-5
+    unit: "cm^2/s"
+    citation: "De Vos et al., 2006"
+
+# ---------------------------------------------------------------------------
+# 8. Immune parameters
+# ---------------------------------------------------------------------------
+immune:
+  k_T_cell:
+    value: 0.10
+    unit: "1/day"
+    source: "Hackett et al., 2013"
+    notes: "T-cell mediated killing rate"
+  k_NK:
+    value: 0.05
+    unit: "1/day"
+    source: "Hackett et al., 2013"
+    notes: "NK cell mediated killing rate"
+  k_helper:
+    value: 0.03
+    unit: "1/day"
+    source: "Hackett et al., 2013"
+    notes: "Helper T-cell mediated rate"
+  k_complement:
+    value: 0.07
+    unit: "1/day"
+    source: "Bennet et al., 2000"
+    notes: "Complement-mediated killing rate"
+  IBMIR_peak_hours:
+    value: 6.0
+    unit: "h"
+    source: "Hackett et al., 2013"
+    notes: "Peak IBMIR response time after implantation"
+
+# ---------------------------------------------------------------------------
+# 9. Site-specific parameters
+# ---------------------------------------------------------------------------
+sites:
+  portal_vein:
+    pO2: 40.0
+    ibmir_exposure: 1.0
+    hepatic_extraction: 0.60
+    retrievability_score: 0.0
+    citation: "Mathew et al., 2019"
+  omental_pouch:
+    pO2: 55.0
+    ibmir_exposure: 0.10
+    hepatic_extraction: 0.50
+    retrievability_score: 100.0
+    citation: "Mathew et al., 2019"
+  subcutaneous:
+    pO2: 30.0
+    ibmir_exposure: 0.30
+    hepatic_extraction: 0.0
+    retrievability_score: 80.0
+    citation: "Aas et al., 2020"
+
+# ---------------------------------------------------------------------------
+# 10. Key references (Ключевые источники)
+# ---------------------------------------------------------------------------
+references:
+  - "Dionne et al., 1993. O2 consumption of islets. JBC M210080200."
+  - "Buchwald et al., 2011. V_max human β-cell. PLoS ONE 6(7):e27045."
+  - "Secomb et al., 2004. Krogh limit / oxygen transport. Microcirculation 11(2):105-117."
+  - "Papageorgiou et al., 2016. FBR kinetics. Biomaterials 90:20-32."
+  - "Gu et al., 2018. Alginate MWCO / IgG exclusion. Nat Biomed Eng 2:928-941."
+  - "Hackett et al., 2013. IBMIR time-course. Diabetes 62:3983-3990."
+  - "Shapiro et al., 2000. Clinical T1D outcomes. NEJM 342:200-207."
+  - "Berney et al., 2016. VEGF / angiogenesis. Nat Biomed Eng 1:0026."
+  - "King et al., 2013. Vessel spacing / critical distance. Biomaterials 34:2780-2789."
+  - "Halber et al., 2014. CGM metrics in T1D. Diabetes Care 37:2653-2659."
+  - "Aas et al., 2020. Portal vs SQ transplantation. Transplantation 104:236-243."
+  - "Mathew et al., 2019. Omental pouch site. Acta Biomater 94:167-178."

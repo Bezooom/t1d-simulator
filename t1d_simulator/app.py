@@ -19,7 +19,25 @@ from organoid_simulator import (
     simulate_organoid_population,
     simulate_organoid_oxygenation,
     simulate_organoid_insulin,
-    calculate_immune_leak
+    calculate_immune_leak,
+    simulate_icasp9_ap1903_apoptosis,
+    simulate_ibmir_protection,
+    simulate_transplantation_site_comparison,
+    simulate_base_editing_fidelity,
+    calculate_patient_transplant_dose,
+    simulate_ogtt_glycemic_control,
+    simulate_cgm_30day_metrics,
+    evaluate_patient_clinical_risk_profile
+)
+from organoid_cad_exporter import (
+    generate_omental_scaffold_stl,
+    generate_patient_clinical_passport
+)
+from ui_helpers import (
+    render_site_decision_matrix,
+    render_benchmark_validation_summary,
+    render_aid_closed_loop_dashboard,
+    render_screening_and_tornado_dashboard
 )
 
 # Инициализация состояния сессии для фиброза
@@ -57,10 +75,12 @@ app_mode = st.sidebar.radio(
     "Режим работы:",
     [
         "1D Симуляция диффузии O₂",
+        "🔍 Скрининг конструкт-дизайна и Торнадо-анализ",
         "🔮 Генеративный 3D-дизайн (TPMS)",
         "🧪 ML-подбор антифиброзных покрытий (GNN)",
         "🩸 Неоваскуляризация (VEGF / Ангиогенез)",
-        "🧫 Мини-органоиды (Фаза 10: Biomimesis)"
+        "🧫 Мини-органоиды (Фаза 10: Biomimesis)",
+        "📍 Сравнение мест пересадки & Бенчмарки"
     ]
 )
 
@@ -1123,6 +1143,12 @@ if app_mode == "1D Симуляция диффузии O₂":
         st.info(f"**Экспортируемые параметры:** {file_name} | Вершин: {vertices.shape[0]} | Треугольников: {faces.shape[0]}. Единицы измерения: **микрометры**.")
 
 # ==============================================================================
+# РЕЖИМ 1.5: СКРИНИНГ ДЕФЕКТОВ И ТОРНАДО-АНАЛИЗ
+# ==============================================================================
+elif app_mode == "🔍 Скрининг конструкт-дизайна и Торнадо-анализ":
+    render_screening_and_tornado_dashboard()
+
+# ==============================================================================
 # РЕЖИМ 2: ГЕНЕРАТИВНЫЙ 3D-ДИЗАЙН (TPMS)
 # ==============================================================================
 elif app_mode == "🔮 Генеративный 3D-дизайн (TPMS)":
@@ -1803,8 +1829,8 @@ elif app_mode == "🧫 Мини-органоиды (Фаза 10: Biomimesis)":
     st.header("🧫 Моделирование мини-органоидов (The Ultimate Biomimesis)")
     st.markdown(r"""
     В Фазе 10 мы полностью отказываемся от искусственных полимерных капсул в пользу **"голых" гипоиммунных мини-органоидов**, 
-    трансплантируемых непосредственно во внутрипортальный кровоток печени. Это полностью решает проблему реакции на чужеродное тело (FBR), 
-    устраняет диффузионный барьер полимерного геля и нормализует инсулиновый метаболизм за счет первого прохода через печень (First-Pass Hepatic Extraction).
+    трансплантируемых непосредственно на сальник или в портальный кровоток. Это устраняет диффузионный барьер полимерного геля, 
+    обеспечивает быструю внутреннюю оксигенацию и гарантирует 100% биологическую и онкогенную безопасность.
     """)
     
     # Сайдбар настройки для Фазы 10
@@ -1832,153 +1858,298 @@ elif app_mode == "🧫 Мини-органоиды (Фаза 10: Biomimesis)":
         help="Ко-инкапсулированные EPCs и MSCs стимулируют самосборку внутренней сосудистой сети органоида за первые дни."
     ) / 100.0
     
-    st.sidebar.header("🧬 Конфигуратор CRISPR-редактирования")
-    b2m_ko = st.sidebar.checkbox("Knock-out B2M (Удаление MHC Class I)", value=False, help="Защита от T-лимфоцитов. ВНИМАНИЕ: без CD47 активирует NK-клетки!")
-    ciita_ko = st.sidebar.checkbox("Knock-out CIITA (Удаление MHC Class II)", value=False, help="Защита от хелперных T-клеток и активации макрофагов.")
-    cd47_ki = st.sidebar.checkbox("Knock-in CD47 (Защитный сигнал)", value=False, help="Предотвращает атаку NK-клеток ('Missing Self') и фагоцитоз макрофагами.")
-    cd55_cd59_ki = st.sidebar.checkbox("Knock-in CD55/CD59 (Ингибиторы комплемента)", value=False, help="Предотвращает лизис клеток белками системы комплемента плазмы.")
-    pdl1_ki = st.sidebar.checkbox("Knock-in PD-L1 (Подавление T-клеток)", value=False, help="Локальное ингибирование аутореактивных T-лимфоцитов хозяина.")
+    st.sidebar.header("🧬 Геномное редактирование (CRISPR)")
+    edit_method = st.sidebar.radio(
+        "Технология редактирования ДНК:",
+        ["Base Editing (CBE/ABE)", "Classic SpCas9 Nuclease"],
+        help="Base Editing вводит точечные замены без DSB и транслокаций ДНК."
+    )
     
-    # Расчеты
+    b2m_ko = st.sidebar.checkbox("Knock-out B2M (Удаление MHC Class I)", value=True, help="Защита от T-лимфоцитов. ВНИМАНИЕ: без CD47 активирует NK-клетки!")
+    ciita_ko = st.sidebar.checkbox("Knock-out CIITA (Удаление MHC Class II)", value=True, help="Защита от хелперных T-клеток и активации макрофагов.")
+    cd47_ki = st.sidebar.checkbox("Knock-in CD47 (Защитный сигнал)", value=True, help="Предотвращает атаку NK-клеток ('Missing Self') и фагоцитоз макрофагами.")
+    cd55_cd59_ki = st.sidebar.checkbox("Knock-in CD55/CD59 (Ингибиторы комплемента)", value=True, help="Предотвращает лизис клеток белками системы комплемента плазмы.")
+    pdl1_ki = st.sidebar.checkbox("Knock-in PD-L1 (Подавление T-клеток)", value=True, help="Локальное ингибирование аутореактивных T-лимфоцитов хозяина.")
+    
+    st.sidebar.header("🛡️ Нанохимия & Защита от IBMIR")
+    peg_lmwh_density = st.sidebar.slider(
+        "Плотность Lipid-PEG-LMWH щита",
+        0.0, 2.0, 1.0,
+        step=0.1,
+        help="Модификация плазматической мембраны низкомолекулярным гепарином нейтрализует Тканевой Фактор (CD142) и IBMIR."
+    )
+    
+    st.sidebar.header("📍 Анатомический сайт трансплантации")
+    transplant_site = st.sidebar.radio(
+        "Зона пересадки:",
+        ["Большой сальник (Omental Pouch)", "Воротная вена печени (Portal Vein)"],
+        format_func=lambda x: x
+    )
+    site_key_code = "omental_pouch" if "сальник" in transplant_site else "portal_vein"
+    
+    st.sidebar.header("🚨 Система iCasp9 (Emergency Suicide Switch)")
+    ap1903_conc = st.sidebar.slider(
+        "Концентрация AP1903 / Rimiducid (нМ)",
+        0.0, 50.0, 0.0,
+        step=1.0,
+        help="При выявлении тератокарцином или мутаций добавление AP1903 запускает апоптоз каспазы-9."
+    )
+
+    # --- РАСЧЕТЫ ---
     t_10_years = np.linspace(0, 3650, 500) # 10 лет
     pop_timeline = simulate_organoid_population(
-        t_10_years,
-        N_0=N_0,
-        N_stem_fraction=0.05,
-        r_proliferation=0.02,
-        turnover_rate=turnover_rate_10,
-        b2m_ko=b2m_ko,
-        ciita_ko=ciita_ko,
-        cd47_ki=cd47_ki,
-        cd55_cd59_ki=cd55_cd59_ki,
-        pdl1_ki=pdl1_ki
+        t_10_years, N_0=N_0, N_stem_fraction=0.05, r_proliferation=0.02, turnover_rate=turnover_rate_10,
+        b2m_ko=b2m_ko, ciita_ko=ciita_ko, cd47_ki=cd47_ki, cd55_cd59_ki=cd55_cd59_ki, pdl1_ki=pdl1_ki
     )
     
     t_30_days = np.linspace(0, 30, 300) # 30 дней для васкуляризации
     pO2_timeline = simulate_organoid_oxygenation(t_30_days, phi_epc=phi_epc)
     
-    # Расчет инсулина на первые 30 дней с учетом васкуляризации и выживания клеток
     N_cells_30 = simulate_organoid_population(
-        t_30_days,
-        N_0=N_0,
-        N_stem_fraction=0.05,
-        r_proliferation=0.02,
-        turnover_rate=turnover_rate_10,
-        b2m_ko=b2m_ko,
-        ciita_ko=ciita_ko,
-        cd47_ki=cd47_ki,
-        cd55_cd59_ki=cd55_cd59_ki,
-        pdl1_ki=pdl1_ki
+        t_30_days, N_0=N_0, N_stem_fraction=0.05, r_proliferation=0.02, turnover_rate=turnover_rate_10,
+        b2m_ko=b2m_ko, ciita_ko=ciita_ko, cd47_ki=cd47_ki, cd55_cd59_ki=cd55_cd59_ki, pdl1_ki=pdl1_ki
     )
-    ins_portal, ins_systemic = simulate_organoid_insulin(t_30_days, N_cells_30, pO2_timeline)
     
-    # Иммунологический вердикт
-    st.subheader("🛡️ Иммунологический статус трансплантата")
+    site_res = simulate_transplantation_site_comparison(t_30_days, N_cells_30, site=site_key_code)
+    ibmir_res = simulate_ibmir_protection(peg_lmwh_density=peg_lmwh_density)
+    genomic_res = simulate_base_editing_fidelity(
+        b2m_ko=b2m_ko, ciita_ko=ciita_ko, cd47_ki=cd47_ki, cd55_cd59_ki=cd55_cd59_ki, pdl1_ki=pdl1_ki,
+        method="base_editing" if "Base" in edit_method else "spcas9"
+    )
+
+    # --- МЕТРИКИ ВЕРХНЕЙ ПАНЕЛИ ---
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("48ч Выживание (IBMIR)", f"{ibmir_res['retention_48h_percent']:.1f}%", delta="Тромбин заблокирован" if peg_lmwh_density > 0.5 else "Высокий IBMIR")
+    m2.metric("Геномная безопасность", f"{100.0 - genomic_res['translocation_risk_percent']:.1f}%", delta=f"Риск транслокаций: {genomic_res['translocation_risk_percent']:.1f}%")
+    m3.metric("Риск стеатоза печени", f"{site_res['steatosis_risk_index']:.1f}%", delta="Низкий (Сальник)" if site_key_code == "omental_pouch" else "Высокий (Печень)", delta_color="normal" if site_key_code == "omental_pouch" else "inverse")
+    m4.metric("Извлекаемость органоида", f"{site_res['retrievability_score']:.0f}%", delta="100% хирургическая" if site_key_code == "omental_pouch" else "Неизвлекаем")
+
+    # --- СТАТУС ВЕРДИКТ ---
+    st.subheader("🛡️ Анализ безопасности и иммунологии трансплантата")
     k_leak = calculate_immune_leak(b2m_ko, ciita_ko, cd47_ki, cd55_cd59_ki, pdl1_ki)
     
-    if k_leak == 0.0:
-        st.success("🥇 **Идеальный статус (Off-the-shelf Universal Graft)!** Все векторы иммунного ответа (T-клетки, NK, комплемент, макрофаги) полностью заблокированы. Прогнозируется 10-летняя выживаемость органоида.")
+    if ap1903_conc > 0.0:
+        st.error(f"🚨 **Аварийный протокол апоптоза (AP1903 = {ap1903_conc:.1f} нМ)!** Активирована каспаза-9. Запущен процесс уничтожения 100% трансплантата.")
+    elif k_leak == 0.0 and peg_lmwh_density >= 0.8:
+        st.success("🥇 **Идеальный статус (Off-the-shelf Universal Graft)!** Полная иммунная маскировка + защиты от IBMIR гепариновым гликокаликсом.")
     elif b2m_ko and not cd47_ki:
-        st.error("🚨 **Патофизиологический кризис (Missing Self)!** Нокаут B2M спасает от T-клеток, но отсутствие MHC-I без оверэкспрессии CD47 вызывает мгновенный лизис натуральными киллерами (NK-клетки).")
+        st.error("🚨 **Патофизиологический кризис (Missing Self)!** Нокаут B2M спасает от T-клеток, но отсутствие MHC-I без CD47 вызывает мгновенный лизис натуральными киллерами.")
     elif not b2m_ko and not pdl1_ki:
-        st.error("⚠️ **Тканевая несовместимость (Аллореактивное отторжение)!** Клетки экспрессируют MHC I, но не защищены PD-L1. Иммунная система хозяина быстро уничтожит органоид с помощью цитотоксических T-лимфоцитов.")
-    elif not cd55_cd59_ki:
-        st.warning("⚠️ **Уязвимость к гуморальному иммунитету (Лизис комплементом)!** Отсутствие белков CD55/CD59 приведет к пробиванию пор в клеточной мембране белками сыворотки крови (MAC комплекс).")
-    elif not ciita_ko:
-        st.warning("⚠️ **Вялотекущее воспаление (Презентация антигена)!** Экспрессия MHC II (CIITA) приведет к постоянному привлечению и активации макрофагов.")
+        st.error("⚠️ **Тканевая несовместимость (Аллореактивное отторжение)!** Клетки экспрессируют MHC I, но не защищены PD-L1.")
+    elif peg_lmwh_density < 0.5:
+        st.warning("⚠️ **Риск ранней гибели от IBMIR!** Без PEG-LMWH тромбоциты и Тканевой Фактор (CD142) вызовут локальный тромбоз.")
     else:
-        st.info("ℹ️ **Частичная защита.** Органоид частично модифицирован, однако присутствует остаточная иммунная утечка.")
-        
-    # Колонки с графиками
+        st.info("ℹ️ **Частичная защита.** Органоид модифицирован, но присутствуют остаточные риски.")
+
+    # --- ГРАФИКИ СЕКЦИИ 1 ---
     col1, col2 = st.columns(2)
-    
     with col1:
         st.subheader("📈 Выживаемость популяции клеток (Горизонт 10 лет)")
-        st.markdown("Показывает численность популяции клеток (в миллионах) на долгосрочном интервале времени под влиянием естественного оборота и иммунного лизиса.")
-        
         fig_pop = gr_obj.Figure()
         fig_pop.add_trace(
             gr_obj.Scatter(
-                x=t_10_years / 365.0, # в годах
-                y=pop_timeline,
-                name="Популяция клеток (млн)",
-                line=dict(color="#60A5FA", width=4),
-                fill="tozeroy",
-                fillcolor="rgba(96, 165, 250, 0.1)"
+                x=t_10_years / 365.0, y=pop_timeline, name="Популяция клеток (млн)",
+                line=dict(color="#60A5FA", width=4), fill="tozeroy", fillcolor="rgba(96, 165, 250, 0.1)"
             )
         )
-        fig_pop.update_layout(
-            template="plotly_dark",
-            xaxis_title="Время (годы)",
-            yaxis_title="Количество клеток N (млн)",
-            yaxis=dict(range=[0, N_0 * 1.5]),
-            margin=dict(l=20, r=20, t=20, b=20),
-            height=380
-        )
+        fig_pop.update_layout(template="plotly_dark", xaxis_title="Время (годы)", yaxis_title="Количество клеток N (млн)", height=350)
         st.plotly_chart(fig_pop, use_container_width=True)
         
     with col2:
         st.subheader("🩸 Кинетика инсулина (Портальный vs Системный)")
-        st.markdown("Сравнение концентрации инсулина в воротной вене печени и системном кровотоке. Демонстрирует 60% печеночную экстракцию для предотвращения инсулинорезистентности.")
-        
         fig_ins = gr_obj.Figure()
-        fig_ins.add_trace(
-            gr_obj.Scatter(
-                x=t_30_days,
-                y=ins_portal,
-                name="Портальный инсулин (в воротной вене)",
-                line=dict(color="#F59E0B", width=3)
-            )
-        )
-        fig_ins.add_trace(
-            gr_obj.Scatter(
-                x=t_30_days,
-                y=ins_systemic,
-                name="Системный инсулин (периферия)",
-                line=dict(color="#EC4899", width=3, dash="dash")
-            )
-        )
-        fig_ins.update_layout(
-            template="plotly_dark",
-            xaxis_title="Время (сутки)",
-            yaxis_title="Концентрация инсулина (отн. ед.)",
-            legend=dict(x=0.05, y=0.95),
-            margin=dict(l=20, r=20, t=20, b=20),
-            height=380
-        )
+        fig_ins.add_trace(gr_obj.Scatter(x=t_30_days, y=site_res["ins_portal"], name="Портальный инсулин (печень)", line=dict(color="#F59E0B", width=3)))
+        fig_ins.add_trace(gr_obj.Scatter(x=t_30_days, y=site_res["ins_systemic"], name="Системный инсулин (периферия)", line=dict(color="#EC4899", width=3, dash="dash")))
+        fig_ins.update_layout(template="plotly_dark", xaxis_title="Время (сутки)", yaxis_title="Инсулин (отн. ед.)", height=350)
         st.plotly_chart(fig_ins, use_container_width=True)
+
+    # --- РЕЖИМ АПОПТОЗА iCasp9 И ОБЗОРА IBMIR ---
+    if ap1903_conc > 0.0:
+        st.subheader("⚡ Динамика аварийного апоптоза (iCasp9 / AP1903)")
+        t_apop_hours = np.linspace(0, 6, 100)
+        surv_cells, elim_pct = simulate_icasp9_ap1903_apoptosis(t_apop_hours, ap1903_conc_nM=ap1903_conc, N_0=N_0)
         
-    # Внутренняя оксигенация (васкуляризация)
+        fig_apop = gr_obj.Figure()
+        fig_apop.add_trace(gr_obj.Scatter(x=t_apop_hours, y=surv_cells, name="Остаточные клетки (млн)", line=dict(color="#EF4444", width=4)))
+        fig_apop.update_layout(template="plotly_dark", xaxis_title="Время после введения AP1903 (часы)", yaxis_title="Популяция клеток (млн)", height=320)
+        st.plotly_chart(fig_apop, use_container_width=True)
+
+    # --- ВАСКУЛЯРИЗАЦИЯ ---
     st.write("---")
     col_ox_desc, col_ox_plot = st.columns([1, 2])
     with col_ox_desc:
         st.subheader("🫀 Самосборка микрососудистой сети")
         st.markdown(f"""
-        Ко-инкапсулированные предшественники эндотелия (EPCs) формируют капилляры непосредственно **внутри** микро-органоида.
-        Это обеспечивает быструю оксигенацию клеток с первых суток и исключает "окно смерти" гипоксии.
+        Ко-инкапсулированные EPCs и MSCs формируют капилляры непосредственно **внутри** органоида.
         
         *   **Доля EPCs:** {phi_epc * 100:.1f}%
-        *   **Портальное pO₂:** {pO2_timeline[-1]:.1f} mmHg (насыщение к 30 дню)
-        *   **Время полуваскуляризации:** {np.log(2) / (0.1 * (1.0 + 5.0 * phi_epc)):.1f} суток
+        *   **Внутреннее pO₂:** {pO2_timeline[-1]:.1f} mmHg
+        *   **Время васкуляризации:** {np.log(2) / (0.1 * (1.0 + 5.0 * phi_epc)):.1f} суток
         """)
     with col_ox_plot:
         fig_ox = gr_obj.Figure()
-        fig_ox.add_trace(
-            gr_obj.Scatter(
-                x=t_30_days,
-                y=pO2_timeline,
-                name="Внутреннее pO₂ органоида (mmHg)",
-                line=dict(color="#10B981", width=4),
-                fill="tozeroy",
-                fillcolor="rgba(16, 185, 129, 0.1)"
-            )
-        )
-        fig_ox.update_layout(
-            template="plotly_dark",
-            xaxis_title="Время (сутки)",
-            yaxis_title="Парциальное давление O₂ (mmHg)",
-            yaxis=dict(range=[0, 55]),
-            margin=dict(l=20, r=20, t=20, b=20),
-            height=300
-        )
+        fig_ox.add_trace(gr_obj.Scatter(x=t_30_days, y=pO2_timeline, name="pO₂ (mmHg)", line=dict(color="#10B981", width=4), fill="tozeroy", fillcolor="rgba(16, 185, 129, 0.1)"))
+        fig_ox.update_layout(template="plotly_dark", xaxis_title="Время (сутки)", yaxis_title="pO₂ (mmHg)", height=280)
         st.plotly_chart(fig_ox, use_container_width=True)
+
+    # ==============================================================================
+    # НОВЫЙ БЛОК: КЛИНИЧЕСКИЙ КАЛЬКУЛЯТОР ДЛЯ ПАЦИЕНТА СД1 И OGTT СИМУЛЯТОР
+    # ==============================================================================
+    st.write("---")
+    st.header("🏥 Клинический трансплантационный калькулятор для пациента СД1")
+    st.markdown("Калькулятор преобразует физиометрические данные больного СД1 в точный расчет дозы IEQ, числа органоидов и площади хирургического сальника.")
+    
+    col_pat1, col_pat2, col_pat3 = st.columns(3)
+    with col_pat1:
+        p_weight = st.slider("Масса тела пациента (кг)", 40.0, 120.0, 70.0, step=1.0)
+    with col_pat2:
+        p_tdi = st.slider("Суточная доза инсулина TDI (ЕД/сутки)", 10.0, 100.0, 45.0, step=1.0)
+    with col_pat3:
+        p_cpeptide = st.slider("Базальный C-пептид (пмоль/л)", 0.0, 300.0, 10.0, step=10.0, help="< 30 пмоль/л означает абсолютную бета-клеточную недостаточность.")
+        
+    p_dose = calculate_patient_transplant_dose(weight_kg=p_weight, tdi_units=p_tdi, c_peptide_pmol_l=p_cpeptide)
+    
+    c1, c2, c3, c4, c5 = st.columns(5)
+    c1.metric("Целевая доза (IEQ)", f"{p_dose['total_ieq']:,.0f}", delta=f"{p_dose['target_ieq_per_kg']:.0f} IEQ/кг")
+    c2.metric("Количество β-клеток", f"{p_dose['total_cells_millions']:.1f} млн", delta="1,560 клеток / IEQ")
+    c3.metric("Число органоидов", f"{p_dose['total_organoids_count']:,} шт", delta="R = 125 мкм")
+    c4.metric("Объем матрикса сальника", f"{p_dose['matrix_volume_ml']:.1f} мл", delta="Фибрин/dECM")
+    c5.metric("Прогноз инсулинонезависимости", f"{p_dose['insulin_independence_forecast']:.0f}%", delta="Полный отказ от инъекций" if p_dose['insulin_independence_forecast'] >= 100 else "Частичный")
+
+    st.subheader("🍽️ Динамика гликемического контроля при приеме пищи (OGTT / 4 часа)")
+    st.markdown("Моделирование изменения глюкозы крови ($G(t)$, ммоль/л) у пациента при углеводной нагрузке **ДО** и **ПОСЛЕ** трансплантации гипоиммунных органоидов (Модель Бергмана).")
+    
+    carb_load = st.slider("Углеводная нагрузка (грамм углеводов)", 20.0, 100.0, 50.0, step=5.0)
+    t_ogtt_hours = np.linspace(0, 4, 200)
+    
+    g_pre_transplant = simulate_ogtt_glycemic_control(t_ogtt_hours, meal_carbs_g=carb_load, is_transplanted=False)
+    g_post_transplant = simulate_ogtt_glycemic_control(t_ogtt_hours, meal_carbs_g=carb_load, is_transplanted=True)
+    
+    fig_ogtt = gr_obj.Figure()
+    fig_ogtt.add_trace(gr_obj.Scatter(x=t_ogtt_hours * 60.0, y=g_pre_transplant, name="ДО трансплантации (СД1 без инсулина)", line=dict(color="#EF4444", width=3, dash="dash")))
+    fig_ogtt.add_trace(gr_obj.Scatter(x=t_ogtt_hours * 60.0, y=g_post_transplant, name="ПОСЛЕ трансплантации органоидов", line=dict(color="#10B981", width=4)))
+    
+    fig_ogtt.add_hrect(y0=3.9, y1=7.8, fillcolor="#10B981", opacity=0.1, line_width=0, annotation_text="Целевой физиологический диапазон (3.9 - 7.8 ммоль/л)", annotation_position="top left")
+    fig_ogtt.add_hrect(y0=11.0, y1=25.0, fillcolor="#EF4444", opacity=0.1, line_width=0, annotation_text="Зона тяжелой гипергликемии", annotation_position="top left")
+    
+    fig_ogtt.update_layout(
+        template="plotly_dark",
+        xaxis_title="Время после приема пищи (минуты)",
+        yaxis_title="Глюкоза крови (ммоль/л)",
+        yaxis=dict(range=[2.0, 24.0]),
+        height=400,
+        legend=dict(x=0.02, y=0.98)
+    )
+    st.plotly_chart(fig_ogtt, use_container_width=True)
+
+    # --- ЭКСПОРТ ДАННЫХ И 3D-ПЕЧАТЬ ---
+    st.write("---")
+    st.header("📄 Экспорт документов и 3D-моделей для клиники")
+    col_exp1, col_exp2 = st.columns(2)
+    
+    with col_exp1:
+        st.subheader("📋 Паспорт трансплантата пациента")
+        st.markdown("Сгенерировать Персональный Клинический Паспорт Клеточного Продукта с расчетными дозами IEQ и геномным профилем.")
+        
+        pat_info = {"weight_kg": p_weight, "tdi_units": p_tdi, "c_peptide_pmol_l": p_cpeptide}
+        passport_text = generate_patient_clinical_passport(pat_info, p_dose, {})
+        
+        st.download_button(
+            label="💾 Скачать Клинический Паспорт Пациента (.md)",
+            data=passport_text,
+            file_name=f"Clinical_Passport_T1D_Patient_{int(p_weight)}kg.md",
+            mime="text/markdown"
+        )
+        
+    with col_exp2:
+        st.subheader("🖨️ 3D-Модель скаффолда для биопринтера")
+        st.markdown("Экспортировать 3D-сетку (STL) пористого матрикса Большого Сальника для биопринтера CELLINK / Nanoscribe.")
+        
+        stl_content = generate_omental_scaffold_stl(area_cm2=p_dose['omental_area_coverage_cm2'], thickness_mm=0.5)
+        
+        st.download_button(
+            label="📐 Скачать 3D-модель скаффолда сальника (.stl)",
+            data=stl_content,
+            file_name=f"Omental_Scaffold_{int(p_dose['omental_area_coverage_cm2'])}sqcm.stl",
+            mime="model/stl"
+        )
+
+    # ==============================================================================
+    # НОВЫЙ БЛОК: ИИ-СТРАТИФИКАТОР РИСКОВ И 30-ДНЕВНЫЙ CGM ДАШБОРД
+    # ==============================================================================
+    st.write("---")
+    st.header("🧠 ИИ-Стратификатор клинических рисков и 30-дневный CGM-профиль")
+    st.markdown("ИИ-анализатор рассчитывает индекс лабильности гликемии, риски гипогликемических состояний и прогнозирует 30-дневные стандартизированные метрики непрерывного мониторинга глюкозы (CGM).")
+    
+    col_r1, col_r2 = st.columns([1, 2])
+    
+    with col_r1:
+        st.subheader("🎯 Приоритетность трансплантации")
+        p_hba1c = st.slider("Текущий HbA1c (%)", 6.0, 14.0, 8.8, step=0.1)
+        p_hypo_events = st.slider("Тяжелых гипогликемий в месяц", 0, 20, 6, step=1)
+        
+        risk_profile = evaluate_patient_clinical_risk_profile(
+            tdi_units=p_tdi, c_peptide_pmol_l=p_cpeptide, hba1c_percent=p_hba1c, hypo_events_per_month=p_hypo_events
+        )
+        
+        st.metric("Индекс приоритетности", f"{risk_profile['priority_score']:.0f} / 100", delta="Критический" if risk_profile['priority_score'] > 75 else "Высокий")
+        st.info(f"**Рекомендация ИИ:** {risk_profile['recommendation']}")
+        st.caption(f"**Обоснование:** {risk_profile['rationale']}")
+        
+    with col_r2:
+        st.subheader("📊 Прогноз 30-дневных показателей CGM (TIR / TBR / TAR)")
+        cgm_pre = simulate_cgm_30day_metrics(is_transplanted=False)
+        cgm_post = simulate_cgm_30day_metrics(is_transplanted=True)
+        
+        cm1, cm2, cm3, cm4 = st.columns(4)
+        cm1.metric("Время в норме TIR (3.9-10.0)", f"{cgm_post['TIR_percent']:.1f}%", delta=f"+{cgm_post['TIR_percent'] - cgm_pre['TIR_percent']:.1f}% (Цель >70%)")
+        cm2.metric("Гипогликемии TBR (<3.9)", f"{cgm_post['TBR_percent']:.1f}%", delta=f"{cgm_post['TBR_percent'] - cgm_pre['TBR_percent']:.1f}% (Цель <4%)", delta_color="normal")
+        cm3.metric("Гипергликемии TAR (>10.0)", f"{cgm_post['TAR_percent']:.1f}%", delta=f"{cgm_post['TAR_percent'] - cgm_pre['TAR_percent']:.1f}% (Цель <25%)", delta_color="normal")
+        cm4.metric("Гликированный HbA1c", f"{cgm_post['gmi_hba1c_percent']:.1f}%", delta=f"{cgm_post['gmi_hba1c_percent'] - p_hba1c:.1f}% (Норма <6.0%)", delta_color="normal")
+        
+        # Сравнительная гистограмма TIR
+        fig_cgm = gr_obj.Figure()
+        fig_cgm.add_trace(gr_obj.Bar(
+            name="ДО трансплантации (Инсулинотерапия)",
+            x=["TIR (Норма)", "TBR (Гипо)", "TAR (Гипер)"],
+            y=[cgm_pre['TIR_percent'], cgm_pre['TBR_percent'], cgm_pre['TAR_percent']],
+            marker_color=["#3B82F6", "#EF4444", "#F59E0B"]
+        ))
+        fig_cgm.add_trace(gr_obj.Bar(
+            name="ПОСЛЕ трансплантации органоидов",
+            x=["TIR (Норма)", "TBR (Гипо)", "TAR (Гипер)"],
+            y=[cgm_post['TIR_percent'], cgm_post['TBR_percent'], cgm_post['TAR_percent']],
+            marker_color=["#10B981", "#10B981", "#10B981"]
+        ))
+        fig_cgm.update_layout(
+            template="plotly_dark",
+            barmode="group",
+            yaxis_title="Процент времени (%)",
+            height=320,
+            margin=dict(l=20, r=20, t=20, b=20)
+        )
+        st.plotly_chart(fig_cgm, use_container_width=True)
+
+# ==============================================================================
+# РЕЖИМ 6: СРАВНЕНИЕ МЕСТ ПЕРЕСАДКИ И ВАЛИДАЦИЯ БЕНЧМАРКОВ
+# ==============================================================================
+elif app_mode == "📍 Сравнение мест пересадки & Бенчмарки":
+    tab_matrix, tab_benchmarks, tab_aid = st.tabs([
+        "📊 Матрица мест имплантации",
+        "📚 Литературные бенчмарки",
+        "📟 Near-Term AID Помпа (Closed-Loop)"
+    ])
+    
+    with tab_matrix:
+        render_site_decision_matrix()
+        
+    with tab_benchmarks:
+        render_benchmark_validation_summary()
+        
+    with tab_aid:
+        render_aid_closed_loop_dashboard()
+
+
+
+
+

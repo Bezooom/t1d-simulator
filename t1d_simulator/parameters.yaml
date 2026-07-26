@@ -1,0 +1,232 @@
+# Runtime Production Parameters for t1d_simulator
+# Source of truth: data/literature_params.yaml
+
+version: "1.0"
+
+# --- Biochemical Constants ---
+solubility: 1.34e-9
+v_max: 1.2e-16
+v_max_human: 1.5e-16
+v_max_macrophage: 3.0e-16
+k_m: 0.5
+k_m_insulin: 5.0
+
+# --- Diffusion Coefficients (cm^2/s) ---
+diffusion:
+  d_fibrosis_base: 1.0e-5
+  d_cytokine: 1.0e-6
+  d_vegf: 1.5e-5
+  pfc_saturation_o2: 200.0  # mmHg
+
+# --- Hydrogels ---
+hydrogels:
+  water:
+    name: "Чистая вода (контроль)"
+    D: 3.0e-5
+  alginate_1%:
+    name: "1% Альгинат натрия"
+    D: 2.1e-5
+  alginate_2%:
+    name: "2% Альгинат натрия (стандарт)"
+    D: 1.5e-5
+  fibrosis_tissue:
+    name: "Плотный фиброз"
+    D: 1.0e-5
+
+# --- Implantation Sites ---
+implantation_sites:
+  arterial:
+    name: "Артериальное русло (прямая перфузия / AV-петля)"
+    pO2: 95.0
+    description: "Идеальные условия, высокая оксигенация."
+  omental_pouch:
+    name: "Сальник (Omental Pouch, реваскуляризованный)"
+    pO2: 55.0
+    description: "Богатая сосудистая сеть, доступность извлечения, ниже риск IBMIR."
+  venous:
+    name: "Венозная сеть (воротная вена / печень)"
+    pO2: 40.0
+    description: "Умеренная оксигенация, прямой контакт с кровью (высокий IBMIR)."
+  subcutaneous:
+    name: "Подкожная клетчатка (SQ)"
+    pO2: 30.0
+    description: "Низкое давление O2. Доступно, но уязвимо для фиброза."
+  extreme_hypoxia:
+    name: "Зона фиброза / Выраженная гипоксия"
+    pO2: 10.0
+    description: "Худший сценарий. Доступ кислорода сильно ограничен."
+
+# --- IBMIR Kinetics ---
+ibmir_kinetics:
+  k_tf_thrombin: 0.08
+  k_clot_platelet: 0.04
+  heparin_inhibition: 0.15
+  heparin_low_mw_inhibition: 0.08
+
+ibmir:
+  tf_concentration: 4.0          # ng/mL — базовая концентрация TF (Hackett 2013)
+  tf_half_life: 15.0             # minutes — T½ распада TF
+  thrombin_generation_rate: 0.05 # 1/min — скорость генерации тромбина
+  clot_formation_rate: 0.03      # 1/min — скорость образования сгустка
+  clot_thickness_max: 80.0       # µm — максимальная толщина сгустка (Papageorgiou 2016)
+  oxygen_permeability_reduction: 0.6  # 60% reduction in clot
+  critical_po2: 0.5              # mmHg — критическое pO2 для гибели (Secomb 2004)
+  time_to_vascularization: 14.0  # days (mouse) — время до васкуляризации
+  viability_baseline: 1.0        # 100% — базовая жизнеспособность
+  viability_drop_rate: 0.012     # 1/min — скорость потери жизнеспособности
+  p_boundary_default: 45.0       # mmHg — граничное pO2 по умолчанию
+  n0_default: 1000.0             # начальное количество клеток
+
+# --- Mechanical & Material Constants ---
+mechanical:
+  e_0_default_kpa: 50.0
+  eta_core_pa_s: 0.1
+  eta_shell_pa_s: 1.5
+  q_total_printing_ml_min: 2.0
+  tau_core_max_kpa: 5.0
+  printability_min: 0.9
+  printability_max: 1.1
+
+# --- Physiological Thresholds ---
+physiological:
+  pO2_necrosis_threshold: 0.5
+  pO2_insulin_threshold: 5.0
+  pO2_normal_min: 5.0
+  pO2_normal_max: 100.0
+  pO2_hyperoxia_threshold: 200.0
+  pO2_basal_subcut: 30.0
+  pO2_av_loop: 95.0
+  cytotoxic_cytokine_threshold: 1.0
+  mwco_critical_kda: 150.0
+  mwco_safe_kda: 50.0
+  mwco_base_kda: 30.0
+  sf_critical: 2.24
+  tau_blood_min_pa: 1.5
+  tau_blood_max_pa: 8.0
+  igg_size_kda: 150.0
+  max_fibrosis_um: 150.0
+  k_deg_scav_default: 0.01
+  k_vegf_default: 0.1
+  p_base_default: 30.0
+  p_max_angio_default: 60.0
+  turnover_rate_default_percent: 1.5
+  catalase_half_life_default_days: 1.5
+  buffer_capacity_default_mm: 10.0
+  ph_normal_min: 6.8
+  ph_normal_max: 7.8
+  ph_range_min: 5.0
+  ph_range_max: 11.0
+  ros_cytotoxic_um: 10.0
+  k_thrombosis_default: 0.05
+  k_hyperplasia_per_day: 0.005
+  k_cell_death_threshold: 0.1
+  k_mitosis_per_day: 0.002
+  cell_lifespan_days: 30.0
+  max_depletion_days: 180.0
+  max_depletion_points: 200
+  ca_accumulation_base_mm: 1.2
+  pfc_saturation_default_mmhg: 200.0
+  k_deg_thrombosis_default: 0.05
+
+# --- Organoid / Phase 10 Constants ---
+organoid:
+  n_stem_fraction: 0.05
+  r_proliferation: 0.02
+  t_10_years: 3650
+  t_30_days: 30
+  omental_site_key: "omental_pouch"
+  portal_site_key: "portal_vein"
+  peg_lmwh_safe_threshold: 0.8
+  peg_lmwh_risk_threshold: 0.5
+  beta_cell_lifespan_days: 30.0
+  mitosis_rate: 0.002
+  cells_per_ieq: 1560.0
+  organoid_radius_um: 125.0
+  scaffold_thickness_mm: 0.5
+  ogtt_hours: 4
+  ogtt_points: 200
+  glycemia_min_mmol: 3.9
+  glycemia_max_mmol: 7.8
+  hyperglycemia_threshold: 11.0
+  cgm_days: 30
+  cgm_target_tir_min: 70.0
+  cgm_target_tbr_max: 4.0
+  cgm_target_tar_max: 25.0
+  cgm_target_hba1c_max: 6.0
+  hba1c_range_min: 6.0
+  hba1c_range_max: 14.0
+  hypo_events_range_max: 20
+  c_peptide_range_max: 300.0
+  c_peptide_critical: 30.0
+  weight_range_min: 40.0
+  weight_range_max: 120.0
+  tdi_range_min: 10.0
+  tdi_range_max: 100.0
+
+# --- GNN / ML Constants ---
+gnn:
+  max_fibrosis_um: 150.0
+  candidates:
+    - name: "Zwitterion (Sulfobetaine SBAA)"
+      smiles: "C=CC(=O)NCC[N+](C)(C)CCCS(=O)(=O)[O-]"
+      class: "Zwitterionic"
+    - name: "Zwitterion (Carboxybetaine CBAA)"
+      smiles: "C=CC(=O)NCC[N+](C)(C)CC(=O)[O-]"
+      class: "Zwitterionic"
+    - name: "PEG8-acrylate"
+      smiles: "C=CC(=O)OCCOCCOCCOCCOCCOCCOCCOCCO C"
+      class: "PEGylated"
+    - name: "PEG4-methacrylate"
+      smiles: "CC(=C)C(=O)OCCOCCOCCOCCO C"
+      class: "PEGylated"
+    - name: "N,N-dimethylacrylamide (DMAA)"
+      smiles: "C=CC(=O)N(C)C"
+      class: "Neutral Hydrophilic"
+    - name: "Hydroxyethyl methacrylate (HEMA)"
+      smiles: "CC(=C)C(=O)OCCO"
+      class: "Neutral Hydrophilic"
+    - name: "Methyl methacrylate (MMA)"
+      smiles: "CC(=C)C(=O)OC"
+      class: "Hydrophobic"
+    - name: "Styrene"
+      smiles: "C=CC1=CC=CC=C1"
+      class: "Hydrophobic"
+    - name: "METAC (quaternary cationic)"
+      smiles: "CC(=C)C(=O)OCC[N+](C)(C)C"
+      class: "Cationic"
+    - name: "Pentafluoropropyl methacrylate (PFPMA)"
+      smiles: "CC(=C)C(=O)OCC(F)(F)C(F)(F)F"
+      class: "Fluorinated Hydrophobic"
+
+# --- 3D TPMS Constants ---
+tpms:
+  box_size_default: 800
+  unit_cell_default: 250
+  thickness_default: 0.0
+  resolution_default: 50
+  resolution_min: 30
+  resolution_max: 80
+  sav_reference_slab: 66.7  # cm^-1 for flat slab 300um
+
+# --- Angiogenesis / VEGF Constants ---
+angiogenesis:
+  species_human_days: 60
+  species_mouse_days: 21
+  species_human_default_selected_day: 14
+  species_mouse_default_selected_day: 7
+  beta_angio_default: 0.15
+  k_clear_default: 15.0
+  v_loaded_default: 1.0
+  p_base: 30.0
+  k_vegf: 0.1
+
+# --- AID / Closed-Loop Constants ---
+aid:
+  meal_carbs_default: 60.0
+  meal_carbs_range_max: 120.0
+  target_glucose_default: 110.0
+  kp_default: 0.08
+  kd_default: 0.15
+  tir_target: 70.0
+  tbr_target: 4.0
+  tar_target: 25.0
