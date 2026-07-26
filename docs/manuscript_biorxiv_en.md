@@ -144,7 +144,7 @@ We developed a validated, multiphysics digital twin engine (`t1d_simulator`) to 
 
 | Resource | Status |
 |----------|--------|
-| Source code (`t1d_simulator`) | Open source, **MIT License** — GitHub release **v1.0.0** (URL: *to be inserted on public push*) |
+| Source code (`t1d_simulator`) | Open source, **MIT License** — GitHub release **v1.0.0** (URL: https://github.com/Bezooom/t1d-simulator) |
 | Citeable archive | Zenodo via `zenodo.json` (DOI: *to be inserted after minting*) |
 | Parameters | `t1d_simulator/parameters.yaml`, `data/literature_params.yaml` |
 | Benchmarks | `reports/benchmarks/` (Papas, Papabathini, Krogh, VEGF, IBMIR) |

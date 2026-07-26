@@ -137,7 +137,7 @@ $$D_{\mathrm{eff}}^{boundary} = D_{\mathrm{base}} \cdot \left( 1 - \alpha \frac{
 
 | Ресурс | Статус |
 |--------|--------|
-| Код (`t1d_simulator`) | Открытый исходный код, **Лицензия MIT** — релиз **v1.0.0** (URL: *будет добавлен после публикации*) |
+| Код (`t1d_simulator`) | Открытый исходный код, **Лицензия MIT** — релиз **v1.0.0** (URL: https://github.com/Bezooom/t1d-simulator) |
 | Архив Zenodo | Zenodo via `zenodo.json` (DOI: *будет получен после публикации*) |
 | Параметры | `t1d_simulator/parameters.yaml`, `data/literature_params.yaml` |
 | Бенчмарки | `reports/benchmarks/` (Papas, Papabathini, Krogh, VEGF, IBMIR) |
