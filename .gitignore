@@ -44,3 +44,11 @@ Thumbs.db
 # Standard and Project ignores added by Antigravity
 *venv*/
 .venv*/
+
+# Compiled manuscripts and screenshots
+docs/*.pdf
+docs/*.html
+reports/manuscript_screenshots/
+
+# Temporary development files
+t1d_simulator/app_new.py
