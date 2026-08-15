@@ -8,8 +8,9 @@
 вы — MIN6 или псевдоостровки, 48 ч, 1% O2, две толщины (например 100 и 250 мкм);
 я — predicted viable fraction / min pO2 заранее, вслепую.
 
-Код: https://github.com/Bezooom/t1d-simulator
-Отчёт по границе: https://github.com/Bezooom/t1d-simulator/blob/master/reports/design_bounds/verified_design_space.md
+Код (README по-русски): https://github.com/Bezooom/t1d-simulator/blob/master/README.ru.md
+Статья: https://github.com/Bezooom/t1d-simulator/blob/master/docs/manuscript_biorxiv_ru.md
+Граница: https://github.com/Bezooom/t1d-simulator/blob/master/reports/design_bounds/verified_design_space.md
 
 С уважением,
 Павел Наумов

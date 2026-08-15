@@ -12,7 +12,7 @@
 у кого есть островки/MIN6 или 3D-печать гидрогеля —
 чтобы одну цифру проверить в чашке.
 
-GitHub: https://github.com/Bezooom/t1d-simulator
+GitHub (по-русски): https://github.com/Bezooom/t1d-simulator/blob/master/README.ru.md
 Если не ваш профиль — ок, скажите кому лучше написать.
 
 Павел Наумов

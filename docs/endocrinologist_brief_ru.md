@@ -3,8 +3,9 @@
 **Автор:** Павел Наумов · `naumov122@gmail.com`  
 **Что это:** не лекарство и не протокол пересадки. Открытый расчёт: **какой формы и толщины** клеточный имплантат при СД1 ещё может дышать, а какой заранее мёртвый в середине.
 
-Код: https://github.com/Bezooom/t1d-simulator  
-Статья (RU): `manuscript_biorxiv_ru.pdf` · (EN): `manuscript_biorxiv_en.pdf`
+Код (русский README): https://github.com/Bezooom/t1d-simulator/blob/master/README.ru.md  
+Статья RU: https://github.com/Bezooom/t1d-simulator/blob/master/docs/manuscript_biorxiv_ru.md  
+Статья EN: https://github.com/Bezooom/t1d-simulator/blob/master/docs/manuscript_biorxiv_en.md
 
 ---
 

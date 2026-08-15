@@ -6,7 +6,8 @@
 
 | Ссылка | Зачем |
 |--------|--------|
-| https://github.com/Bezooom/t1d-simulator | код |
+| [README.ru.md](../README.ru.md) | главная страница репо по-русски |
+| https://github.com/Bezooom/t1d-simulator | код (на GitHub сверху: English / Русский) |
 | https://github.com/Bezooom/t1d-simulator/blob/master/docs/manuscript_biorxiv_en.pdf | PDF |
 | `reports/design_bounds/verified_design_space.md` | граница $L^*$ |
 | `reports/dose_transport/dose_vs_krogh.md` | доза → площадь |

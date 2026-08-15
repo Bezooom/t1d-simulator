@@ -1,11 +1,16 @@
 # T1D Digital Twin & Hypoimmune Organoid Simulator
 
+**Language / Язык:** **English** · [Русский](README.ru.md)
+
 [![Tests](https://github.com/Bezooom/t1d-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/Bezooom/t1d-simulator/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![bioRxiv](https://img.shields.io/badge/bioRxiv-Preprint-red.svg)](docs/manuscript_biorxiv_en.md)
+[![Preprint EN](https://img.shields.io/badge/preprint-EN-red.svg)](docs/manuscript_biorxiv_en.md)
+[![Препринт RU](https://img.shields.io/badge/препринт-RU-blue.svg)](docs/manuscript_biorxiv_ru.md)
 [![Zenodo](https://img.shields.io/badge/Zenodo-Archive-blue.svg)](zenodo.json)
 
-An open-source, literature-calibrated multiphysics digital twin engine (`t1d_simulator`) developed by **Pavel V. Naumov** to simulate, evaluate, and de-risk cell replacement therapies for Type 1 Diabetes (T1D). The platform maps the physical, biochemical, and immunological design space of macroencapsulated stem cell-derived $\beta$-cell grafts and hypoimmune organoid implants.
+Open-source, literature-calibrated engine (`t1d_simulator`) by **Pavel V. Naumov**. It maps which **implant geometries** for encapsulated $\beta$-cells are physically allowed by oxygen transport — and which are not — before wet-lab work.
+
+**Main result:** a checked Krogh length $L^*$. Thick subcutaneous slabs ($\ge 250\ \mu\mathrm{m}$ half-thickness at $\ge 50$ M/ml) and $400\ \mu\mathrm{m}$ capsules at typical density sit *above* $L^*$. A thin omental sheet or small spheres do not. Edmonton-like cell mass is an **area** problem (~650 cm²), not a thicker pancake. Not a clinical product.
 
 ![Graphical Abstract](docs/figures/graphical_abstract.png)
 
@@ -34,8 +39,9 @@ An open-source, literature-calibrated multiphysics digital twin engine (`t1d_sim
 │   └── benchmarks.py           # Verification script for validation datasets
 ├── docs/
 │   ├── figures/                # Manuscripts schematics and graphical abstract
-│   ├── manuscript_biorxiv_en.md# Primary English bioRxiv preprint (v1.2)
-│   ├── manuscript_biorxiv_ru.md# Russian parallel preprint draft (v1.2)
+│   ├── manuscript_biorxiv_en.md  # Preprint v1.3 (English)
+│   ├── manuscript_biorxiv_ru.md  # Preprint v1.3 (Russian)
+│   └── endocrinologist_brief_ru.md
 │   ├── site_comparison_matrix.md# Comparative matrix of transplant locations
 │   └── *.md                    # Clinical passports, MoU templates, protocols
 ├── reports/
@@ -46,7 +52,7 @@ An open-source, literature-calibrated multiphysics digital twin engine (`t1d_sim
 ├── t1d_simulator/              # Python simulator source package
 │   ├── app.py                  # Main Streamlit dashboard (monolith)
 │   ├── ibmir_module.py         # IBMIR kinetics solver
-│   ├── verify_model.py         # Integration test suite (40 automated tests)
+│   ├── verify_model.py         # Integration tests (44)
 │   └── parameters.yaml         # Default runtime parameters
 └── pyproject.toml              # Build configurations and dependency lists
 ```
@@ -110,7 +116,20 @@ Dose vs Krogh (Edmonton mass → surgical area): `python3 t1d_simulator/dose_tra
 
 Islet scale + death window + literature sizes: `python3 t1d_simulator/scaleup_science.py` → [`reports/scaleup/remaining_biotech_bounds.md`](reports/scaleup/remaining_biotech_bounds.md).
 
-Who to write (Russia-first, Doronichev as intro): [`docs/outreach_playbook.md`](docs/outreach_playbook.md).
+---
+
+## Documentation
+
+| | English | Русский |
+|--|---------|---------|
+| This README | [README.md](README.md) | [README.ru.md](README.ru.md) |
+| Preprint | [manuscript_biorxiv_en.md](docs/manuscript_biorxiv_en.md) | [manuscript_biorxiv_ru.md](docs/manuscript_biorxiv_ru.md) |
+| One page for clinicians | — | [endocrinologist_brief_ru.md](docs/endocrinologist_brief_ru.md) |
+| Geometry bound $L^*$ | [verified_design_space.md](reports/design_bounds/verified_design_space.md) | same numbers |
+| Dose → area | [dose_vs_krogh.md](reports/dose_transport/dose_vs_krogh.md) | same |
+| Islet size + death window | [remaining_biotech_bounds.md](reports/scaleup/remaining_biotech_bounds.md) | same |
+| Who to write (RU-first) | — | [outreach_playbook.md](docs/outreach_playbook.md) |
+| Docs index | [docs/README.md](docs/README.md) | [docs/README.md](docs/README.md) |
 
 ---
 

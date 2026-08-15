@@ -1,5 +1,7 @@
 # T1D Digital Twin & Hypoimmune Organoid Simulator
 
+**Language / Язык:** **English** · [Русский (репозиторий)](../README.ru.md)
+
 A multiphysics **in silico** engine for designing and screening cell replacement therapies for Type 1 Diabetes (T1D). Models macroencapsulation failure modes — hypoxia, fibrosis, immune activation — and hypoimmune organoid dynamics with IBMIR kinetics, site selection, and dose calculation.
 
 ## What the Model Does

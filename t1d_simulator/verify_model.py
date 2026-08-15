@@ -583,6 +583,8 @@ def run_tests():
     rec_row = rev[rev.source.str.contains("recommended")].iloc[0]
     assert papas_row["bound_says"] == "OVER L*"
     assert rec_row["bound_says"] == "UNDER L*"
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    assert os.path.isfile(os.path.join(root, "README.ru.md")), "Нужен README.ru.md для переключения языка на GitHub"
     print(
         f"  [OK] IEQ ρ={rho_ieq:.0f} M/ml; SQ anoxic={sq['single_islet_anoxic_frac']:.2f}; "
         f"Papas={papas_row['bound_says']}, rec={rec_row['bound_says']}."
