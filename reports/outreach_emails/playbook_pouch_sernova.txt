@@ -1,0 +1,15 @@
+Subject: 18-day human avascular wait vs L* — why a prevascular pouch is the bound
+
+Dear Sernova / pouch R&D,
+
+I maintain an open Krogh-bound + death-window calculation for encapsulated β-cells (MIT).
+
+A thick SQ slab (L = 250 µm, 50 M/ml) has anoxic volume fraction ~0.86. With irreversible loss k ≈ 0.35/day, remaining mass is ~19% after a mouse-like 8 days and ~14% after a human-like 18 days. An omental / prevascular geometry that is already under L* (e.g. 200 µm sphere, 80 M/ml, pO2 55 mmHg) has f_anox = 0 — the wait no longer eats the graft.
+
+Your pouch is the experimental lever that formula isolates. I can run your published channel / slab thickness against L* and the 8 vs 18 day curves. No IP ask; code is public.
+
+https://github.com/Bezooom/t1d-simulator
+https://github.com/Bezooom/t1d-simulator/blob/master/reports/scaleup/remaining_biotech_bounds.md
+
+Pavel V. Naumov
+naumov122@gmail.com

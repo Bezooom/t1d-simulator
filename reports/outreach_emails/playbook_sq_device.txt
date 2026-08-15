@@ -1,0 +1,15 @@
+Subject: Half-thickness 250 µm @ 50 M/ml is over L* ≈ 126 µm
+
+Dear [Name],
+
+For planar SQ devices the zero-order survival bound at 50 M/ml is L* ≈ 126 µm (function/GSIS, p_c = 5 mmHg, is tighter). A 500 µm-full slab (L = 250 µm) is over that bound; Papabathini-class data at L = 250 µm / 50 M/ml reported ~32% viability.
+
+Edmonton-like mass (70 kg, 11k IEQ/kg) is ~1.2e9 cells. At 80 M/ml that is ~15 ml — about 650 cm² of two-sided omental sheet if you respect 0.9 L*_func. Thickening the slab is the degree of freedom that the bound forbids.
+
+Repo: https://github.com/Bezooom/t1d-simulator
+Dose vs area: https://github.com/Bezooom/t1d-simulator/blob/master/reports/dose_transport/dose_vs_krogh.md
+
+Happy to put your published L and loading on the same plot. No IP ask.
+
+Pavel V. Naumov
+naumov122@gmail.com

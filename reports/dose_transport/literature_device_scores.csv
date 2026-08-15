@@ -1,0 +1,6 @@
+device,L_or_R_um,L_star_surv_um,L_star_func_um,oxygen_survival,oxygen_function,ibmir_ok,verdict
+Alginate microcapsule (Papas-like),400.0,217.8,200.5,False,False,True,FAIL
+"Planar SQ macrodevice, 500 µm full (2-sided → L=250)",250.0,125.7,115.8,False,False,True,FAIL
+"Planar SQ thin, 200 µm full (L=100)",100.0,125.7,115.8,True,True,True,PASS
+"Omental sphere (this study, recommended)",200.0,234.0,224.2,True,True,True,PASS
+Portal naked / uncoated sphere,150.0,199.2,187.5,True,True,False,FAIL

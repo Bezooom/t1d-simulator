@@ -46,8 +46,8 @@ Optional dev dependencies: `pip install -e ".[dev]"` for pytest + ruff.
 ## Quickstart
 
 ```bash
-# 1. Verify the model (35 tests, ~30 s)
-python3 t1d_simulator/verify_model.py
+# 1. Verify the model (41 tests; prefer CPU)
+CUDA_VISIBLE_DEVICES="" python3 t1d_simulator/verify_model.py
 
 # 2. Launch the interactive UI
 streamlit run t1d_simulator/app.py
@@ -128,9 +128,9 @@ If you use this model or code in your research:
 ```bibtex
 @software{t1d_digital_twin_2026,
   title = {T1D Digital Twin & Hypoimmune Organoid Simulator},
-  author = {Author Name},
+  author = {Naumov, Pavel V.},
   year = {2026},
-  url = {https://github.com/your-username/Диабет},
+  url = {https://github.com/Bezooom/t1d-simulator},
   version = {1.0.0},
   license = {MIT}
 }

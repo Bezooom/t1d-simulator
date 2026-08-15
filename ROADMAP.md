@@ -9,13 +9,13 @@
 
 | Документ | Роль |
 |----------|------|
-| `Development_Roadmap.md` | Архив НИОКР-фаз 1–5 (симулятор) |
-| `Development_Plan_Research_Impact.md` | Стратегия impact (архив идей) |
-| `Experimental_Biochemist_Plan.md` | In vitro / in vivo — только с партнёром |
+| `archive/docs_historical/Development_Roadmap.md` | Архив НИОКР-фаз 1–5 (симулятор) |
+| `archive/docs_historical/Development_Plan_Research_Impact.md` | Стратегия impact (архив идей) |
+| `archive/docs_historical/Experimental_Biochemist_Plan.md` | In vitro / in vivo — только с партнёром |
 | `docs/wet_lab_validation_protocol.md` | SOP валидации endpoints |
 | `docs/manuscript_biorxiv_en.md` | Preprint EN (submit-ready) |
 | `docs/grant_proposal_breakthrough_t1d.md` | Черновик grant aims (~$1.25M) |
-| `Critical_Analysis_*.md` | Limitations → methods preprint |
+| `archive/docs_historical/Critical_Analysis_*.md` | Limitations → methods preprint |
 | `zenodo.json` | Метаданные citeable software release |
 
 ---
@@ -30,7 +30,7 @@
 | **M1 Calibration** | O₂ PDE / Krogh; Papas RMSE **10.42%**; Papabathini RMSE **11.42%**; site matrix; IBMIR 0–48 h | ✅ **100%** |
 | **M2 Open Science** | Preprint EN/RU + PDF; tornado `uncertainty_analysis.py`; CLI `screen_design.py`; `zenodo.json` | ✅ **100%** |
 | **M3 Outreach Ready** | Web screening в UI; `run_partner_screening.py`; hybrid emails в `reports/outreach_emails/` | ✅ **100%** |
-| **Тест-сюита** | `verify_model.py` | ✅ **40 / 40 green** |
+| **Тест-сюита** | `verify_model.py` | ✅ **44 / 44 green** |
 | **M4 Joint science** | Co-authorship / grant / model v2 по partner data | ⬜ внешний + joint |
 | **M5 Wet-lab** | Партнёр + Experimental Plan E1+ | ⬜ только с lab |
 
@@ -41,7 +41,7 @@
 
 | # | Действие | Критерий done | Блокирует |
 |---|----------|---------------|-----------|
-| **E1** | Релизный тег **`v1.0.0`** на GitHub + публикация кода | Tag + public repo; Zenodo DOI через `zenodo.json` / GitHub–Zenodo | Citeability, письма |
+| **E1** | Релизный тег **`v1.0.0`** на GitHub + публикация кода | Public repo ✅ https://github.com/Bezooom/t1d-simulator ; tag/release `v1.0.0` ✅; Zenodo DOI ⬜ | Citeability, письма |
 | **E2** | Подача preprint на **bioRxiv** (Synthetic Biology / Bioengineering) | Preprint ID / URL | Outreach credibility |
 | **E3** | Рассылка черновиков из `reports/outreach_emails/` | 4+ отправленных; log дат | M3 Signal → M4 |
 | **E4** | (После ответов) grant Breakthrough T1D / joint figure | Submission / MoU | M4–M5 |
@@ -192,7 +192,8 @@ git push origin v1.0.0
 
 | Поле | Значение |
 |------|----------|
-| GitHub release | `⬜` URL |
+| GitHub repo | ✅ https://github.com/Bezooom/t1d-simulator |
+| GitHub release | ✅ https://github.com/Bezooom/t1d-simulator/releases/tag/v1.0.0 |
 | Zenodo DOI | `⬜` 10.5281/zenodo.XXXX |
 
 ### E2. bioRxiv preprint
@@ -291,7 +292,7 @@ Predicted vs measured **core viability** at 2–3 thicknesses/densities under co
 | Preprint draft EN/RU/PDF | ✅ |
 | Screen + uncertainty modules | ✅ |
 | Outreach pack | ✅ 4 emails + 1-pager |
-| Tests | ✅ 40/40 |
+| Tests | ✅ 41/41 |
 
 ### 8.2. Следующие 90 дней (external + M4)
 
@@ -367,4 +368,8 @@ NEXT (external):
 | 2026-07-23 | 1.0 | Единая карта M0–M5, kickstart |
 | 2026-07-26 | 2.0 | Baseline M0 ✅ / M1 ~80%; фокус M2 ship |
 | 2026-07-26 | **3.0** | **M0–M3 in-repo 100%**; 40 tests; реестр deliverables; External Actions E1–E4 runbook; M4–M5 как post-signal; M3 = Ready vs Signal |
+| 2026-08-15 | 3.1 | `screen_design --sweep` + heatmaps; корень очищен (`archive/`); 41 tests |
+| 2026-08-15 | 3.2 | Verified Krogh bounds: analytical L* vs BVP, 0 certificate violations; `design_bounds.py` |
+| 2026-08-15 | 3.3 | Dose–area, islet two-scale, death window, virtual review; 44 tests |
+| 2026-08-15 | 3.4 | Outreach playbook: РФ-first, Дороничев как дверь, короткие тезисы T1–T5 |
 )

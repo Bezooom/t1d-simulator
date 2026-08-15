@@ -1,0 +1,10 @@
+site_key,geometry,density_million_per_ml,radius_um,L_star_um,certified_max_um,oxygen_certified,min_core_pO2_mmHg,viable_fraction_percent,numerical_supports_certificate,score
+omental_pouch,spherical,80.0,200.0,234.0,210.6,True,15.976,100.0,True,1600000.0
+omental_pouch,cylindrical,100.0,150.0,170.9,153.8,True,13.977,100.0,True,1500000.0
+venous,spherical,100.0,150.0,178.2,160.4,True,12.724,100.0,True,1500000.0
+subcutaneous,spherical,80.0,150.0,172.2,155.0,True,8.416,100.0,True,1200000.0
+omental_pouch,planar,100.0,100.0,120.9,108.8,True,18.48,100.0,True,1000000.0
+venous,cylindrical,100.0,100.0,145.5,131.0,True,21.699,100.0,True,1000000.0
+subcutaneous,cylindrical,100.0,100.0,125.7,113.2,True,11.922,100.0,True,1000000.0
+venous,planar,80.0,100.0,115.0,103.5,True,11.141,100.0,True,800000.0
+subcutaneous,planar,50.0,100.0,125.7,113.2,True,11.979,100.0,True,500000.0

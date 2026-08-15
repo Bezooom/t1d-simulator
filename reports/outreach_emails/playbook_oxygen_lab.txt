@@ -1,0 +1,15 @@
+Subject: R=400 µm alginate vs L* ≈ 210 µm at 50 M/ml
+
+Dear Dr. [Last name],
+
+I scored published capsule sizes against a zero-order Krogh bound (human V_max, 2% alginate), checked against a MM BVP (mean L_num/L* = 1.08, no certificate violations).
+
+A 400 µm-radius capsule at 50 M/ml and ~28 mmHg sits above L* ≈ 210 µm — the same regime as Papas et al. 2007 (reported viability 68%, 45% at 80 M/ml). I am not claiming a new biology; I am saying the core was already forbidden by the inequality.
+
+Open code (MIT): https://github.com/Bezooom/t1d-simulator
+Bound note: https://github.com/Bezooom/t1d-simulator/blob/master/reports/design_bounds/verified_design_space.md
+
+If useful, I will run a one-page L* / predicted viability sheet on a thickness and density from one of your figures. No IP ask.
+
+Pavel V. Naumov
+naumov122@gmail.com

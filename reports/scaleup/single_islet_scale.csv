@@ -1,0 +1,11 @@
+diameter_um,radius_um,local_density_M_per_ml,site_key,L_star_surv_um,L_star_func_um,single_islet_anoxic_frac,single_islet_ok_surv,single_islet_ok_func
+100.0,50.0,2979.4,subcutaneous,28.2,26.0,0.563,False,False
+100.0,50.0,2979.4,omental_pouch,38.3,36.7,0.264,False,False
+150.0,75.0,882.8,subcutaneous,51.8,47.7,0.378,False,False
+150.0,75.0,882.8,omental_pouch,70.5,67.5,0.04,False,False
+200.0,100.0,372.4,subcutaneous,79.8,73.5,0.219,False,False
+200.0,100.0,372.4,omental_pouch,108.5,103.9,0.0,False,False
+250.0,125.0,190.7,subcutaneous,111.5,102.7,0.092,False,False
+250.0,125.0,190.7,omental_pouch,151.6,145.2,0.0,True,True
+300.0,150.0,110.3,subcutaneous,146.6,135.0,0.009,False,False
+300.0,150.0,110.3,omental_pouch,199.3,190.9,0.0,True,True

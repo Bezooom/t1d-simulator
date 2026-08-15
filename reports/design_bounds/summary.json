@@ -1,0 +1,9 @@
+{
+  "v_max_used": 1.5e-16,
+  "p_crit_mmHg": 0.5,
+  "n_bound_rows": 36,
+  "mean_Lnum_over_Lan": 1.079,
+  "n_certified": 75,
+  "n_certificate_violations": 0,
+  "report": "/home/bezoom/storage/Projects/\u0414\u0438\u0430\u0431\u0435\u0442/reports/design_bounds/verified_design_space.md"
+}

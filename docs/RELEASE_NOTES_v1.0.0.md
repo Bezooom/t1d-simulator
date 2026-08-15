@@ -57,7 +57,7 @@ Public **bioRxiv** posting and **Zenodo DOI** are external steps after this tag 
 ### Install
 
 ```bash
-git clone <REPO_URL>
+git clone https://github.com/Bezooom/t1d-simulator.git
 cd <repo>
 pip install -e t1d_simulator
 # or
@@ -121,7 +121,7 @@ Until Zenodo and bioRxiv IDs are live, cite the software as:
 ```text
 Naumov, P. V. (2026). t1d_simulator: Multiphysics Digital Twin Engine for
 Encapsulated Beta-Cell & Hypoimmune Organoid Transplants (v1.0.0) [Computer software].
-https://github.com/<ORG_OR_USER>/<REPO>
+https://github.com/Bezooom/t1d-simulator
 ```
 
 After deposit, prefer:

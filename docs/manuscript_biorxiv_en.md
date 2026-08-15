@@ -3,8 +3,8 @@
 **Author:** Pavel V. Naumov  
 **Correspondence:** `naumov122@gmail.com`  
 **Target venue:** bioRxiv (Category: Synthetic Biology / Bioengineering)  
-**Date:** July 2026  
-**Document status:** Preprint manuscript v1.2 (submit-ready draft; replace repository/DOI placeholders after public release)  
+**Date:** August 2026  
+**Document status:** Preprint manuscript **v1.3** (GitHub: https://github.com/Bezooom/t1d-simulator ; Zenodo DOI pending)  
 **Software:** `t1d_simulator` v1.0.0 (MIT License)  
 
 ![Graphical Abstract](figures/graphical_abstract.png)
@@ -13,7 +13,7 @@
 
 ## Abstract
 
-Cell replacement therapy using stem cell-derived pancreatic $\beta$-cells offers a potentially curative approach for Type 1 Diabetes (T1D). However, the clinical utility of macro- and microencapsulated cell grafts is restricted by cellular necrosis under physiological conditions, active foreign body responses, and acute inflammatory reactions. In this study, we present an open-source, calibrated multiphysics digital twin engine (`t1d_simulator` v1.0.0) designed to systematically evaluate these failure modes in silico. By integrating non-linear reaction-diffusion partial differential equations (PDEs), Physics-Informed Neural Networks (PINNs), Graph Neural Networks (GNNs) for anti-fibrotic chemical screening, and discrete population dynamics, the platform models oxygen transport, fibrotic capsule formation, reactive oxygen species (ROS) toxicity, and the acute 0–48h Instant Blood-Mediated Inflammatory Reaction (IBMIR). The model was validated against independent islet viability datasets, achieving low root-mean-square error values of 10.42% and 11.42% across spherical and planar geometries. Parameter sensitivity analysis identified effective diffusivity, metabolic consumption ($V_{\max}$), and boundary oxygen tension as the dominant viability drivers. Quantitative simulations demonstrate that unvascularized planar hydrogels exceeding $150\ \mu\text{m}$ in half-thickness or dense microcapsules undergo severe central hypoxia ($pO_2 < 0.5\ \text{mmHg}$) and core necrosis under subcutaneous conditions ($pO_2 = 30\ \text{mmHg}$). We computationally evaluated an integrated organoid transplant paradigm combining multiplex gene editing ($B2M^{-/-}$, $CIITA^{-/-}$, $CD47^{KI}$, $PD-L1^{KI}$), inducible suicide switches (iCasp9), local surface heparinization, and transplantation into a pre-vascularized omental pouch. Our results indicate that omental scaffolds with angiogenic feedback restore core oxygenation ($pO_2 > 40\ \text{mmHg}$), decrease thrombin generation by more than 80%, and preserve long-term graft survival. This digital twin provides a predictive engineering framework to optimize encapsulation geometries and cell loading parameters prior to preclinical animal trials.
+Cell replacement therapy using stem cell-derived pancreatic $\beta$-cells offers a potentially curative approach for Type 1 Diabetes (T1D). However, the clinical utility of macro- and microencapsulated cell grafts is restricted by cellular necrosis under physiological conditions, active foreign body responses, and acute inflammatory reactions. In this study, we present an open-source, calibrated multiphysics digital twin engine (`t1d_simulator` v1.0.0) designed to systematically evaluate these failure modes in silico. By integrating non-linear reaction-diffusion partial differential equations (PDEs), Physics-Informed Neural Networks (PINNs), Graph Neural Networks (GNNs) for anti-fibrotic chemical screening, and discrete population dynamics, the platform models oxygen transport, fibrotic capsule formation, reactive oxygen species (ROS) toxicity, and the acute 0–48h Instant Blood-Mediated Inflammatory Reaction (IBMIR). The model was validated against independent islet viability datasets, achieving low root-mean-square error values of 10.42% and 11.42% across spherical and planar geometries. Parameter sensitivity analysis identified effective diffusivity, metabolic consumption ($V_{\max}$), and boundary oxygen tension as the dominant viability drivers. A sufficient Krogh bound $L^*$ was derived and checked against the numerical BVP (mean $L_{\mathrm{num}}/L^*=1.08$; no certificate violations). Planar subcutaneous half-thickness $\ge 250\ \mu\mathrm{m}$ at $\ge 50$ M/ml and $400\ \mu\mathrm{m}$ capsules at $50$ M/ml lie above $L^*$ and match published viability losses. A native $150\ \mu\mathrm{m}$ IEQ already has an $\sim 38\%$ anoxic core in SQ $pO_2$. Edmonton-like cell mass maps to $\sim 650\ \mathrm{cm}^2$ of a thin omental sheet, not a thicker slab. During an $18$-day human avascular wait a thick SQ device retains $\sim 14\%$ of mass. These geometry rules — not a clinical product — are the main result.
 
 ---
 
@@ -122,6 +122,36 @@ For the baseline planar construct, the local parameter sensitivity sweep yielded
 
 These results demonstrate that under standard loading densities, the graft viability is primarily delivery- and consumption-limited. Diffusivity and boundary oxygen are the main physical drivers of cell survival, whereas the Michaelis constant ($K_M$) has a negligible impact within the tested range.
 
+### 3.5. Verified geometry: sufficient Krogh bound $L^*$
+Zero-order consumption $Q=\rho V_{\max}$ (human $V_{\max}=1.5\times 10^{-16}\ \mathrm{mol\,cell^{-1}\,s^{-1}}$) gives a **sufficient** length
+
+$$
+L^*_{\mathrm{planar}}=\sqrt{\frac{2DS(p_b-p_c)}{Q}},\quad
+R^*_{\mathrm{sph}}=\sqrt{\frac{6DS(p_b-p_c)}{Q}}.
+$$
+
+If the half-thickness or radius is below $L^*$, core $pO_2$ cannot reach $p_c$ even at full $V_{\max}$. The numerical MM critical length is systematically **larger** (mean ratio $1.079$; $n=36$ site×geometry×density cases; **0** designs certified at $0.9L^*$ were anoxic in the BVP).
+
+| Site / geometry | Density | $L^*$ (µm) | $L_{\mathrm{num}}$ (µm) |
+|-----------------|---------|------------|-------------------------|
+| SQ planar | 50 M/ml | **126** | 142 |
+| SQ planar | 100 M/ml | **89** | 101 |
+| SQ sphere | 50 M/ml | **218** | 232 |
+| Omentum sphere | 80 M/ml | **234** | 244 |
+
+**Forbidden:** planar SQ $L\ge 250\ \mu\mathrm{m}$ at $\ge 50$ M/ml; alginate $R=400\ \mu\mathrm{m}$ at $50$ M/ml (Papas reported 68% / 45% viability).  
+**Allowed (certificate $0.9L^*$):** omental sphere $\approx 200\ \mu\mathrm{m}$, $80$ M/ml; thin SQ planar $\le 100\ \mu\mathrm{m}$ at $\le 50$ M/ml.
+
+Functional GSIS uses $p_c=5\ \mathrm{mmHg}$ ($K_{M,\mathrm{ins}}$), so $L^*_{\mathrm{func}}<L^*_{\mathrm{surv}}$. Alive $\ne$ secreting.
+
+### 3.6. Dose versus area, not thickness
+A $70$ kg patient at $11{,}000$ IEQ/kg needs $\approx 1.20\times 10^9$ cells. At $80$ M/ml that is $\approx 15$ ml. Respecting $0.9L^*_{\mathrm{func}}$ on a two-sided omental sheet gives **$\approx 645\ \mathrm{cm}^2$** (about one A4 page). A one-sided SQ plaque at $50$ M/ml needs $\sim 2300\ \mathrm{cm}^2$. Clinical encapsulation fails when groups thicken the device instead of growing area.
+
+### 3.7. Cluster scale and the avascular window
+One IEQ ($\approx 1560$ cells) in a $150\ \mu\mathrm{m}$ sphere is $\approx 880$ M/ml **locally**. SQ $L^*\approx 52\ \mu\mathrm{m} < 75\ \mu\mathrm{m}$ radius $\Rightarrow$ $\sim 38\%$ anoxic core; omental $L^*\approx 70\ \mu\mathrm{m}$ is nearly legal. Continuum “50 M/ml PASS” can hide dead clusters. **Rule: pseudoislets $\le 120\ \mu\mathrm{m}$**, then apply capsule $L^*$ to the smear density.
+
+Anoxic volume is lost while waiting for vessels ($k\approx 0.35\,\mathrm{d}^{-1}$). SQ planar $250\ \mu\mathrm{m}$ / $50$ M/ml: $f_{\mathrm{anox}}\approx 0.86$; remaining mass $\approx 19\%$ after $8$ d (mouse) and $\approx 14\%$ after $18$ d (human). The recommended omental $200\ \mu\mathrm{m}$ / $80$ M/ml sphere has $f_{\mathrm{anox}}=0$. That is a quantitative account of “works in mice, fails as a thick human SQ device.”
+
 ---
 
 ## 4. Model Limitations & Future Directions
@@ -136,7 +166,7 @@ Third, the model's representation of the foreign body reaction is simplified, gr
 
 ## 5. Conclusion
 
-We developed a validated, multiphysics digital twin engine (`t1d_simulator`) to evaluate transport and immunological failure modes in encapsulated $\beta$-cell grafts. The platform captures the spatial and temporal dynamics of oxygen diffusion, biomaterial-induced fibrotic encapsulation, and the acute inflammatory coagulation cascade (IBMIR). By defining the physical limits of passive diffusion and predicting the protective effects of surface heparinization and localized angiogenesis, this tool can help researchers design and optimize cell-based therapies for Type 1 Diabetes.
+We developed a calibrated open digital twin and, more importantly, a **checked geometry rule** for implanting $\beta$-cells: a sufficient Krogh length $L^*$, a dose-to-area conversion, a single-islet bound, and an avascular-window loss estimate. Thick SQ slabs and $400\ \mu\mathrm{m}$ capsules are forbidden by the same inequality that tracks Papas/Papabathini viability. A thin omental sheet (or small spheres) at moderate density is the construct the bound allows. The software is a means to reproduce those statements, not a clinical product.
 
 ---
 
@@ -147,9 +177,10 @@ We developed a validated, multiphysics digital twin engine (`t1d_simulator`) to 
 | Source code (`t1d_simulator`) | Open source, **MIT License** — GitHub release **v1.0.0** (URL: https://github.com/Bezooom/t1d-simulator) |
 | Citeable archive | Zenodo via `zenodo.json` (DOI: *to be inserted after minting*) |
 | Parameters | `t1d_simulator/parameters.yaml`, `data/literature_params.yaml` |
-| Benchmarks | `reports/benchmarks/` (Papas, Papabathini, Krogh, VEGF, IBMIR) |
-| Preprint source | This file; Russian parallel draft in `manuscript_biorxiv_ru.md` |
-| Verification | `CUDA_VISIBLE_DEVICES="" python3 t1d_simulator/verify_model.py` → 40/40 PASS |
+| Benchmarks | `reports/benchmarks/` |
+| Geometry bounds | `reports/design_bounds/`, `reports/dose_transport/`, `reports/scaleup/` |
+| Preprint source | This file; Russian parallel: `manuscript_biorxiv_ru.md` |
+| Verification | `CUDA_VISIBLE_DEVICES="" python3 t1d_simulator/verify_model.py` → 44/44 PASS |
 
 ---
 

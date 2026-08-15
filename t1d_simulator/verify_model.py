@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import numpy as np
-from simulator import solve_oxygen_profile, HYDROGELS
+from simulator import solve_oxygen_profile, HYDROGELS, IMPLANTATION_SITES
 import mesh_generator
 
 def run_tests():
@@ -467,11 +467,128 @@ def run_tests():
     assert tornado_res["top_sensitive_parameter"] in ["pO2_boundary (Tissue Oxygen)", "D_eff (Diffusion Coefficient)"], "Ключевыми факторами гипоксии планарного геля должны быть pO2_boundary или D_eff"
     print("  [OK] Торнадо-анализ чувствительности параметров верифицирован.")
 
-    # ========================================================================
-    # Итог
-    # ========================================================================
+    # Тест 41: density × radius sweep + heatmap
+    print("\nТест 41: Проверка sweep-экрана density × radius и heatmap...")
+    from screen_design import sweep_designs, export_sweep_csv, export_sweep_json, plot_sweep_heatmap
+    import tempfile
 
-    print("\n=== Все 40 тестов успешно пройдены! ===")
+    sweep_df = sweep_designs(
+        geometry="planar",
+        densities=[20.0, 100.0],
+        radii=[100.0, 250.0],
+        site_key="subcutaneous",
+        heparin_coated=False,
+    )
+    assert len(sweep_df) == 4, f"Ожидалось 4 дизайна, получено: {len(sweep_df)}"
+    low_load = sweep_df[(sweep_df["density_million_per_ml"] == 20.0) & (sweep_df["radius_microns"] == 100.0)].iloc[0]
+    high_load = sweep_df[(sweep_df["density_million_per_ml"] == 100.0) & (sweep_df["radius_microns"] == 250.0)].iloc[0]
+    assert high_load["viable_fraction_percent"] < low_load["viable_fraction_percent"], (
+        "Плотный толстый планар должен иметь меньшую выживаемость, чем тонкий разреженный"
+    )
+    assert high_load["status"] == "FAIL", f"Ожидался FAIL для 250 µm / 100 M/ml SQ, получено: {high_load['status']}"
+    with tempfile.TemporaryDirectory() as tmp:
+        csv_path = os.path.join(tmp, "sweep.csv")
+        json_path = os.path.join(tmp, "sweep.json")
+        png_path = os.path.join(tmp, "heatmap.png")
+        export_sweep_csv(sweep_df, csv_path)
+        export_sweep_json(sweep_df, json_path)
+        plot_sweep_heatmap(sweep_df, png_path)
+        assert os.path.getsize(csv_path) > 0
+        assert os.path.getsize(json_path) > 0
+        assert os.path.getsize(png_path) > 0
+    print(
+        f"  [OK] Sweep верифицирован: low={low_load['viable_fraction_percent']:.1f}% "
+        f"high={high_load['viable_fraction_percent']:.1f}% ({high_load['status']})."
+    )
+
+    print("\nТест 42: Аналитическая граница Крога vs численный BVP (достаточное условие)...")
+    from design_bounds import (
+        V_MAX_HUMAN,
+        analytical_l_crit_um,
+        compare_bounds,
+        feasible_designs,
+    )
+
+    l_star = analytical_l_crit_um(
+        100.0,
+        IMPLANTATION_SITES["subcutaneous"]["pO2"],
+        HYDROGELS["alginate_2%"]["D"],
+        V_MAX_HUMAN,
+        "planar",
+    )
+    assert 80.0 < l_star < 100.0, f"L* SQ planar 100 M/ml ожидался ~89 µm, получено {l_star:.2f}"
+    chk = compare_bounds(
+        densities=[100.0],
+        geometries=["planar"],
+        sites=["subcutaneous"],
+        v_max_cell=V_MAX_HUMAN,
+    )
+    assert float(chk.iloc[0]["ratio_num_over_an"]) >= 1.0, "Численный L_crit должен быть ≥ zero-order L*"
+    grid = feasible_designs(
+        densities=[50.0, 100.0],
+        radii=[100.0, 250.0],
+        geometries=["planar"],
+        sites=["subcutaneous"],
+        v_max_cell=V_MAX_HUMAN,
+        safety=0.90,
+    )
+    n_bad = int((grid["oxygen_certified"] & ~grid["numerical_supports_certificate"]).sum())
+    assert n_bad == 0, "Сертифицированный дизайн не должен давать численную аноксию"
+    thin = grid[(grid.density_million_per_ml == 50.0) & (grid.radius_um == 100.0)].iloc[0]
+    thick = grid[(grid.density_million_per_ml == 100.0) & (grid.radius_um == 250.0)].iloc[0]
+    assert bool(thin["oxygen_certified"]) is True
+    assert bool(thick["oxygen_certified"]) is False
+    print(
+        f"  [OK] L*={l_star:.1f} µm, L_num/L*={float(chk.iloc[0]['ratio_num_over_an']):.3f}, "
+        f"violations={n_bad}."
+    )
+
+    print("\nТест 43: Конфликт доза–транспорт (IEQ vs L* функциональный)...")
+    from dose_transport import dose_transport_table, score_literature_devices
+    load, dose_df = dose_transport_table(weight_kg=70.0)
+    assert load["total_cells_millions"] > 1000.0
+    om = dose_df[(dose_df.site_key == "omental_pouch") & (dose_df.geometry == "planar") & (dose_df.density_M_per_ml == 80.0)].iloc[0]
+    assert om["L_star_function_um"] < om["L_star_survival_um"]
+    assert om["planar_area_two_sided_cm2"] > 100.0
+    scores = score_literature_devices()
+    papas = scores[scores.device.str.contains("Papas")].iloc[0]
+    rec = scores[scores.device.str.contains("recommended")].iloc[0]
+    assert papas["verdict"] == "FAIL"
+    assert rec["verdict"] == "PASS"
+    print(
+        f"  [OK] 70 кг → {load['total_cells_millions']:.0f} млн клеток; "
+        f"omentum 80 M/ml sheet ≈ {om['planar_area_two_sided_cm2']:.0f} cm²; "
+        f"Papas-like={papas['verdict']}."
+    )
+
+    print("\nТест 44: Два масштаба островка, окно до сосудов, virtual review...")
+    from scaleup_science import (
+        anoxic_volume_fraction,
+        islet_local_density_m_per_ml,
+        remaining_after_window,
+        single_islet_table,
+        virtual_review_table,
+    )
+    rho_ieq = islet_local_density_m_per_ml(150.0)
+    assert 700.0 < rho_ieq < 1100.0, f"Локальная плотность IEQ ожидалась ~880 M/ml, получено {rho_ieq:.1f}"
+    assert anoxic_volume_fraction(100.0, 200.0, "spherical") == 0.0
+    assert remaining_after_window(0.0, 18.0) == 1.0
+    assert remaining_after_window(1.0, 18.0) < 0.05
+    islets = single_islet_table(diameters_um=(150.0,), sites=("subcutaneous", "omental_pouch"))
+    sq = islets[islets.site_key == "subcutaneous"].iloc[0]
+    om = islets[islets.site_key == "omental_pouch"].iloc[0]
+    assert sq["single_islet_anoxic_frac"] > om["single_islet_anoxic_frac"]
+    rev = virtual_review_table()
+    papas_row = rev[rev.source.str.contains("Papas") & rev.source.str.contains("benchmark")].iloc[0]
+    rec_row = rev[rev.source.str.contains("recommended")].iloc[0]
+    assert papas_row["bound_says"] == "OVER L*"
+    assert rec_row["bound_says"] == "UNDER L*"
+    print(
+        f"  [OK] IEQ ρ={rho_ieq:.0f} M/ml; SQ anoxic={sq['single_islet_anoxic_frac']:.2f}; "
+        f"Papas={papas_row['bound_says']}, rec={rec_row['bound_says']}."
+    )
+
+    print("\n=== Все 44 тестов успешно пройдены! ===")
     return True
 
 if __name__ == "__main__":

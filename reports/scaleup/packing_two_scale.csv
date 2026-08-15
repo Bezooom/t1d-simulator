@@ -1,0 +1,5 @@
+site_key,geometry,capsule_R_um,packing_M_per_ml,islet_diameter_um,islet_local_M_per_ml,packing_fraction,smear_L_star_um,smear_capsule_ok,islet_L_star_um,islet_ok,both_scales_ok
+subcutaneous,spherical,200.0,20.0,150.0,882.8,0.0227,344.4,True,51.8,False,False
+subcutaneous,spherical,200.0,50.0,150.0,882.8,0.0566,217.8,False,51.8,False,False
+subcutaneous,spherical,200.0,80.0,150.0,882.8,0.0906,172.2,False,51.8,False,False
+subcutaneous,spherical,200.0,100.0,150.0,882.8,0.1133,154.0,False,51.8,False,False

@@ -31,8 +31,8 @@
   "upload_type": "software",
   "related_identifiers": [
     {
-      "identifier": "https://biorxiv.org",
-      "relation": "isPreprintOf",
+      "identifier": "https://github.com/Bezooom/t1d-simulator",
+      "relation": "isSupplementTo",
       "scheme": "url"
     }
   ]

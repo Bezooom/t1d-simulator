@@ -1,9 +1,10 @@
 # Executive Outreach Summary: T1D Encapsulation & Organoid Digital Twin
 
 **Project:** Open-Source Multiphysics Digital Twin for $\beta$-Cell & Hypoimmune Organoid Therapy  
-**Contact:** `digitaltwin-t1d@research.org`  
-**Repository:** [ROADMAP.md](file:///home/bezoom/storage/Projects/%D0%94%D0%B8%D0%B0%D0%B1%D0%B5%D1%82/ROADMAP.md) | [t1d_simulator](file:///home/bezoom/storage/Projects/%D0%94%D0%B8%D0%B0%D0%B1%D0%B5%D1%82/t1d_simulator/README.md)  
-**File:** [outreach_1pager_en.md](file:///home/bezoom/storage/Projects/%D0%94%D0%B8%D0%B0%D0%B1%D0%B5%D1%82/docs/outreach_1pager_en.md)
+**Contact:** `naumov122@gmail.com`  
+**Repository:** https://github.com/Bezooom/t1d-simulator  
+**Release:** https://github.com/Bezooom/t1d-simulator/releases/tag/v1.0.0  
+**Preprint PDF:** https://github.com/Bezooom/t1d-simulator/blob/master/docs/manuscript_biorxiv_en.pdf
 
 ---
 

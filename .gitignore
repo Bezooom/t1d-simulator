@@ -52,3 +52,10 @@ reports/manuscript_screenshots/
 
 # Temporary development files
 t1d_simulator/app_new.py
+cache/
+scratch/
+.codegraph/
+dist/
+*.db
+*.db-shm
+*.db-wal

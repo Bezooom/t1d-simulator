@@ -1,0 +1,7 @@
+source,geometry,p_boundary_mmHg,length_um,density_M_per_ml,L_star_surv_um,L_star_func_um,anoxic_frac,bound_says,reported_viability,remain_human_18d
+Papas et al. 2007 (benchmark),spherical,28.0,400.0,50.0,210.3,192.3,0.616,OVER L*,68.0,0.386
+Papas et al. 2007 high density,spherical,28.0,400.0,80.0,166.2,152.0,0.752,OVER L*,45.0,0.249
+Papabathini et al. 2023 (benchmark),planar,28.0,250.0,50.0,121.4,111.0,0.874,OVER L*,32.0,0.127
+Papabathini et al. 2023 thin-load,planar,28.0,250.0,10.0,271.5,248.3,0.0,UNDER L*,85.0,1.0
+Typical SQ macrodevice 500 um full (L=250),planar,30.0,250.0,50.0,125.7,115.8,0.864,OVER L*,,0.137
+This study recommended omental sphere,spherical,55.0,200.0,80.0,234.0,224.2,0.0,UNDER L*,,1.0

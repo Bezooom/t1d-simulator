@@ -1,0 +1,15 @@
+Subject: Native 150 µm IEQ already has ~38% anoxic core in SQ pO2
+
+Dear Dr. [Last name],
+
+A continuum “50 M/ml” certificate is not enough. One IEQ (~1560 cells) in a 150 µm sphere is ~880 M/ml locally. At that density SQ L* ≈ 52 µm, so a 75 µm radius islet already has ~38% anoxic volume. The same islet is nearly legal in omental pO2 (L* ≈ 70 µm).
+
+Design rule we use: pseudoislets ≤ 120 µm, then apply capsule L* to the smear density separately.
+
+Note: https://github.com/Bezooom/t1d-simulator/blob/master/reports/scaleup/remaining_biotech_bounds.md
+Code: https://github.com/Bezooom/t1d-simulator
+
+I can score your published cluster diameter (SQ vs omentum) on one page.
+
+Pavel V. Naumov
+naumov122@gmail.com

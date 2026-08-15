@@ -39,7 +39,9 @@ An open-source, literature-calibrated multiphysics digital twin engine (`t1d_sim
 │   ├── site_comparison_matrix.md# Comparative matrix of transplant locations
 │   └── *.md                    # Clinical passports, MoU templates, protocols
 ├── reports/
-│   └── benchmarks/             # Target benchmark figures and reports
+│   ├── benchmarks/             # Predicted vs reported validation
+│   └── sweeps/                 # screen_design --sweep CSV/JSON/heatmaps
+├── archive/                    # Historical notes (not the public product)
 ├── scripts/                    # Helper scripts for screening and email templates
 ├── t1d_simulator/              # Python simulator source package
 │   ├── app.py                  # Main Streamlit dashboard (monolith)
@@ -70,7 +72,7 @@ streamlit run t1d_simulator/app.py
 ```
 
 ### 3. Verify Model and Run Tests
-Run the 40-test integration test suite on CPU:
+Run the 44-test integration test suite on CPU:
 
 ```bash
 export CUDA_VISIBLE_DEVICES=""
@@ -78,11 +80,37 @@ python3 t1d_simulator/verify_model.py
 ```
 
 ### 4. Execute Construct Screening
-Run a CLI construct design screen:
+Single design:
 
 ```bash
-python3 t1d_simulator/screen_design.py
+python3 t1d_simulator/screen_design.py --geometry spherical --radius 200 --density 80 --site omental_pouch
 ```
+
+Density × thickness sweep + heatmap (the design-space product):
+
+```bash
+python3 t1d_simulator/screen_design.py --sweep \
+  --geometry planar --site subcutaneous --no-heparin \
+  --densities 20,50,80,100 --radii 100,150,200,250 \
+  --export-csv reports/sweeps/planar_sq.csv \
+  --export-json reports/sweeps/planar_sq.json \
+  --heatmap reports/sweeps/heatmap_viability_planar_sq.png \
+  --heatmap-po2 reports/sweeps/heatmap_po2_planar_sq.png
+```
+
+### 5. Verified design bounds (analytical Krogh vs BVP)
+
+```bash
+CUDA_VISIBLE_DEVICES="" python3 t1d_simulator/design_bounds.py
+```
+
+Report: [`reports/design_bounds/verified_design_space.md`](reports/design_bounds/verified_design_space.md).
+
+Dose vs Krogh (Edmonton mass → surgical area): `python3 t1d_simulator/dose_transport.py` → [`reports/dose_transport/dose_vs_krogh.md`](reports/dose_transport/dose_vs_krogh.md).
+
+Islet scale + death window + literature sizes: `python3 t1d_simulator/scaleup_science.py` → [`reports/scaleup/remaining_biotech_bounds.md`](reports/scaleup/remaining_biotech_bounds.md).
+
+Who to write (Russia-first, Doronichev as intro): [`docs/outreach_playbook.md`](docs/outreach_playbook.md).
 
 ---
 

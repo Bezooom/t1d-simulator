@@ -1,22 +1,14 @@
-Subject: In Silico Failure Screening (`screen_design`) & Collaboration for MIT Koch Institute
+Subject: In silico FBR / zwitterionic coating screen (free run)
 
-Dear Dr. Daniel Anderson,
+Dear Dr. Anderson,
 
-I have been following your impressive research on zwitterionic hydrogel modifications for immune evasion.
+I have been following your work on zwitterionic hydrogels and immune-evasive coatings. I released an open digital twin that maps encapsulation failure modes (oxygen, FBR thickness, IBMIR) and ranks construct designs before wet-lab iteration.
 
-We have developed an open-source, literature-calibrated digital twin engine (`t1d_simulator`) designed to evaluate multiphysics failure modes in stem cell-derived beta-cell therapies—specifically oxygen diffusion limits (Krogh limit), FBR fibrotic capsule growth, and 0–48h acute IBMIR kinetics.
+Repo (MIT, v1.0.0): https://github.com/Bezooom/t1d-simulator
+Preprint PDF: https://github.com/Bezooom/t1d-simulator/blob/master/docs/manuscript_biorxiv_en.pdf
 
-Using our new automated construct screening tool (`screen_design`), We can evaluate your novel polymer SMILES structures using our GNN anti-fibrotic model to predict fibrotic thickness (L_fib) and oxygen flux in vivo.
-
-Our preprint manuscript, open-science package, and screening tools are accessible here:
-- Executable Screening Tool: `python3 t1d_simulator/screen_design.py`
-- Manuscript: docs/manuscript_biorxiv_en.md (bioRxiv PDF / Zenodo DOI metadata)
-- Decision Matrix: docs/site_comparison_matrix.md
-
-We would welcome the opportunity to run a zero-cost computational failure screening for your group's custom geometry or discuss model co-development.
+Offer: a free predicted-vs-reported screen on a geometry or coating thickness from one of your figures (viability / L_fib / core hypoxia). Happy to share the report and discuss co-development.
 
 Best regards,
-
 Pavel V. Naumov
-Bioengineering Research Group | t1d_simulator
 naumov122@gmail.com
