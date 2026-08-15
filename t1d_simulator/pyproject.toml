@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "t1d_simulator"
-version = "1.0.0"
+version = "1.1.0"
 description = "In silico digital twin for Type 1 Diabetes cell replacement therapy: multiphysics oxygen PDE, PINN surrogate, GNN biocompatibility, hypoimmune organoid dynamics, and interactive UI."
 readme = "README.md"
 license = {text = "MIT"}

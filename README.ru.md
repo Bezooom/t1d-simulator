@@ -6,6 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Препринт RU](https://img.shields.io/badge/препринт-RU-blue.svg)](docs/manuscript_biorxiv_ru.md)
 [![Preprint EN](https://img.shields.io/badge/preprint-EN-red.svg)](docs/manuscript_biorxiv_en.md)
+[![Release](https://img.shields.io/badge/release-v1.1.0-brightgreen.svg)](https://github.com/Bezooom/t1d-simulator/releases/tag/v1.1.0)
 
 Открытый расчёт **Павла Наумова**: какой формы и толщины можно сажать инкапсулированные $\beta$-клетки при СД1, а какой — нельзя (кислород не доходит до середины). Это не лекарство и не протокол пересадки.
 

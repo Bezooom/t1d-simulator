@@ -6,6 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Preprint EN](https://img.shields.io/badge/preprint-EN-red.svg)](docs/manuscript_biorxiv_en.md)
 [![Препринт RU](https://img.shields.io/badge/препринт-RU-blue.svg)](docs/manuscript_biorxiv_ru.md)
+[![Release](https://img.shields.io/badge/release-v1.1.0-brightgreen.svg)](https://github.com/Bezooom/t1d-simulator/releases/tag/v1.1.0)
 [![Zenodo](https://img.shields.io/badge/Zenodo-Archive-blue.svg)](zenodo.json)
 
 Open-source, literature-calibrated engine (`t1d_simulator`) by **Pavel V. Naumov**. It maps which **implant geometries** for encapsulated $\beta$-cells are physically allowed by oxygen transport — and which are not — before wet-lab work.
