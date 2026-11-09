@@ -1,4 +1,47 @@
-# T1D Digital Twin & Hypoimmune Organoid Simulator
+<a id="readme-top"></a>
+<!-- best-readme-template -->
+<div align="center">
+
+<h1 align="center">T1D Digital Twin & Hypoimmune Organoid Simulator</h1>
+
+<p align="center">
+  Open-source, literature-calibrated multiphysics digital twin for Type 1 Diabetes islet encapsulation and hypoimmune organoid transplant design.
+  <br />
+  <br />
+  <a href="https://github.com/Bezooom/t1d-simulator/tree/HEAD/docs"><strong>Docs »</strong></a> · <a href="https://github.com/Bezooom/t1d-simulator/issues/new?labels=bug">Report Bug</a> · <a href="https://github.com/Bezooom/t1d-simulator/issues/new?labels=enhancement">Request Feature</a> · <a href="README.ru.md">Русский</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/Bezooom/t1d-simulator/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/Bezooom/t1d-simulator/ci.yml?style=for-the-badge&label=CI&logo=githubactions&logoColor=white" alt="CI" /></a>
+  <a href="https://github.com/Bezooom/t1d-simulator/releases/latest"><img src="https://img.shields.io/github/v/release/Bezooom/t1d-simulator?style=for-the-badge" alt="Release" /></a>
+  <a href="https://github.com/Bezooom/t1d-simulator/blob/HEAD/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License" /></a>
+  <a href="https://github.com/Bezooom/t1d-simulator/stargazers"><img src="https://img.shields.io/github/stars/Bezooom/t1d-simulator?style=for-the-badge" alt="Stars" /></a>
+  <a href="https://github.com/Bezooom/t1d-simulator/commits"><img src="https://img.shields.io/github/last-commit/Bezooom/t1d-simulator?style=for-the-badge" alt="Last commit" /></a>
+  <a href="https://github.com/Bezooom/t1d-simulator/issues"><img src="https://img.shields.io/github/issues/Bezooom/t1d-simulator?style=for-the-badge" alt="Issues" /></a>
+</p>
+
+</div>
+
+<details open>
+<summary><b>📑 Table of Contents</b></summary>
+
+- [📖 About The Project](#-about-the-project)
+- [🔮 Core Features](#-core-features)
+- [📂 Repository Structure](#-repository-structure)
+- [🧱 Built With](#-built-with)
+- [🚀 Quickstart](#-quickstart)
+- [Documentation](#documentation)
+- [📊 Scientific Validation](#-scientific-validation)
+- [📑 Citation & Academic Use](#-citation--academic-use)
+- [🗺️ Roadmap](#-roadmap)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+- [📬 Contact](#-contact)
+- [🙏 Acknowledgments](#-acknowledgments)
+
+</details>
+
+## 📖 About The Project
 
 **Language / Язык:** **English** · [Русский](README.ru.md)
 
@@ -59,6 +102,16 @@ Open-source, literature-calibrated engine (`t1d_simulator`) by **Pavel V. Naumov
 ```
 
 ---
+
+## 🧱 Built With
+
+<p>
+<img src="https://img.shields.io/badge/Python-3-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+<img src="https://img.shields.io/badge/NumPy--013243?style=for-the-badge&logo=numpy&logoColor=white" alt="NumPy" />
+<img src="https://img.shields.io/badge/SciPy--8CAAE6?style=for-the-badge&logo=scipy&logoColor=white" alt="SciPy" />
+<img src="https://img.shields.io/badge/PyTorch--EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white" alt="PyTorch" />
+<img src="https://img.shields.io/badge/Streamlit--FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit" />
+</p>
 
 ## 🚀 Quickstart
 
@@ -165,5 +218,34 @@ If you use this simulator or reference the preprint findings in your research, p
 
 ---
 
+## 🗺️ Roadmap
+
+Detailed plan: [ROADMAP.md](ROADMAP.md). See the [open issues](https://github.com/Bezooom/t1d-simulator/issues) for the full list of ideas and known problems.
+
+## 🤝 Contributing
+
+Contributions are welcome. If you have an idea that would make this better, open an issue or a pull request:
+
+1. Fork the repository
+2. Create a branch (`git checkout -b feature/my-idea`)
+3. Commit (`git commit -m 'feat: my idea'`)
+4. Push (`git push origin feature/my-idea`)
+5. Open a pull request
+
 ## 📄 License
 This project is licensed under the **MIT License** — see the `LICENSE` file for details. Open for academic and commercial co-development. For research collaborations and custom in silico design sweeps, please contact `naumov122@gmail.com`.
+
+## 📬 Contact
+
+**Pavel Naumov** (Bezooom) — [naumovai.ru](https://naumovai.ru) · [X @Bezooooom](https://x.com/Bezooooom) · naumov122@gmail.com
+
+Project: [https://github.com/Bezooom/t1d-simulator](https://github.com/Bezooom/t1d-simulator)
+
+## 🙏 Acknowledgments
+
+- Published physiological parameters cited in [docs](docs) and the preprint
+- [Zenodo](https://zenodo.org) metadata (`zenodo.json`)
+- [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
+- [Shields.io](https://shields.io)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>

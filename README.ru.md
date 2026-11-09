@@ -1,4 +1,47 @@
-# Цифровой двойник СД1 и гипоиммунных органоидов
+<a id="readme-top"></a>
+<!-- best-readme-template -->
+<div align="center">
+
+<h1 align="center">Цифровой двойник СД1 и гипоиммунных органоидов</h1>
+
+<p align="center">
+  Открытый откалиброванный по литературе мультифизический цифровой двойник для инкапсуляции островков и дизайна гипоиммунных органоидов при СД1.
+  <br />
+  <br />
+  <a href="https://github.com/Bezooom/t1d-simulator/tree/HEAD/docs"><strong>Документация »</strong></a> · <a href="https://github.com/Bezooom/t1d-simulator/issues/new?labels=bug">Сообщить об ошибке</a> · <a href="https://github.com/Bezooom/t1d-simulator/issues/new?labels=enhancement">Предложить улучшение</a> · <a href="README.md">English</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/Bezooom/t1d-simulator/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/Bezooom/t1d-simulator/ci.yml?style=for-the-badge&label=CI&logo=githubactions&logoColor=white" alt="CI" /></a>
+  <a href="https://github.com/Bezooom/t1d-simulator/releases/latest"><img src="https://img.shields.io/github/v/release/Bezooom/t1d-simulator?style=for-the-badge" alt="Release" /></a>
+  <a href="https://github.com/Bezooom/t1d-simulator/blob/HEAD/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License" /></a>
+  <a href="https://github.com/Bezooom/t1d-simulator/stargazers"><img src="https://img.shields.io/github/stars/Bezooom/t1d-simulator?style=for-the-badge" alt="Stars" /></a>
+  <a href="https://github.com/Bezooom/t1d-simulator/commits"><img src="https://img.shields.io/github/last-commit/Bezooom/t1d-simulator?style=for-the-badge" alt="Last commit" /></a>
+  <a href="https://github.com/Bezooom/t1d-simulator/issues"><img src="https://img.shields.io/github/issues/Bezooom/t1d-simulator?style=for-the-badge" alt="Issues" /></a>
+</p>
+
+</div>
+
+<details open>
+<summary><b>📑 Содержание</b></summary>
+
+- [📖 О проекте](#-о-проекте)
+- [Для эндокринолога (одна страница)](#для-эндокринолога-одна-страница)
+- [Что умеет код](#что-умеет-код)
+- [🧱 Технологии (Built With)](#-технологии-built-with)
+- [Быстрый старт](#быстрый-старт)
+- [Документация](#документация)
+- [Проверка на чужих данных](#проверка-на-чужих-данных)
+- [Цитирование](#цитирование)
+- [🗺️ Дорожная карта](#-дорожная-карта)
+- [🤝 Участие в разработке](#-участие-в-разработке)
+- [Лицензия](#лицензия)
+- [📬 Контакты](#-контакты)
+- [🙏 Благодарности](#-благодарности)
+
+</details>
+
+## 📖 О проекте
 
 **Язык / Language:** [English](README.md) · **Русский**
 
@@ -33,6 +76,16 @@
 - **PINN / GNN / UI** — ускорение, разведочный скрининг полимеров, Streamlit. Не главный claim.
 
 ---
+
+## 🧱 Технологии (Built With)
+
+<p>
+<img src="https://img.shields.io/badge/Python-3-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+<img src="https://img.shields.io/badge/NumPy--013243?style=for-the-badge&logo=numpy&logoColor=white" alt="NumPy" />
+<img src="https://img.shields.io/badge/SciPy--8CAAE6?style=for-the-badge&logo=scipy&logoColor=white" alt="SciPy" />
+<img src="https://img.shields.io/badge/PyTorch--EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white" alt="PyTorch" />
+<img src="https://img.shields.io/badge/Streamlit--FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit" />
+</p>
 
 ## Быстрый старт
 
@@ -100,6 +153,35 @@ python3 t1d_simulator/scaleup_science.py
 }
 ```
 
+## 🗺️ Дорожная карта
+
+Подробный план: [ROADMAP.md](ROADMAP.md). Полный список задач и идей — в [issues](https://github.com/Bezooom/t1d-simulator/issues).
+
+## 🤝 Участие в разработке
+
+Вклад в проект приветствуется. Если есть идея, как сделать лучше, откройте issue или pull request:
+
+1. Сделайте форк репозитория
+2. Создайте ветку (`git checkout -b feature/my-idea`)
+3. Сделайте коммит (`git commit -m 'feat: my idea'`)
+4. Отправьте ветку (`git push origin feature/my-idea`)
+5. Откройте pull request
+
 ## Лицензия
 
 MIT — файл [LICENSE](LICENSE). Вопросы: `naumov122@gmail.com`.
+
+## 📬 Контакты
+
+**Павел Наумов** (Bezooom) — [naumovai.ru](https://naumovai.ru) · [X @Bezooooom](https://x.com/Bezooooom) · naumov122@gmail.com
+
+Проект: [https://github.com/Bezooom/t1d-simulator](https://github.com/Bezooom/t1d-simulator)
+
+## 🙏 Благодарности
+
+- Опубликованные физиологические параметры, на которые ссылаются [документация](docs) и препринт
+- Метаданные [Zenodo](https://zenodo.org) (`zenodo.json`)
+- [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
+- [Shields.io](https://shields.io)
+
+<p align="right">(<a href="#readme-top">наверх</a>)</p>
